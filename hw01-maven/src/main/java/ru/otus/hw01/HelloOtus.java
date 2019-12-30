@@ -2,9 +2,10 @@ package ru.otus.hw01;
 
 
 
-public class Main {
+public class HelloOtus {
 
     public static void main(String... args) {
+        System.out.println("Test jar");
     }
 
 }
