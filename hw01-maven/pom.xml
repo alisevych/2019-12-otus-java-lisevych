@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <parent>
         <groupId>ru.otus</groupId>
         <artifactId>OtusJavaLisevych</artifactId>
@@ -36,6 +35,10 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <archive>
+                        <manifestEntries>
+                            <url>${project.url}</url>
+                            <build-jdk>${maven.compiler.source}</build-jdk>
+                        </manifestEntries>
                         <manifest>
                             <mainClass>ru.otus.hw01.HelloOtus</mainClass>
                         </manifest>
