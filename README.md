@@ -3,4 +3,5 @@
 Группа 2019-12
 
 ### Студент
-Алёна Лисевич<br>
+Alena Lisevych (Алёна Лисевич)<br>
+alena.lisevych@gmail.com
