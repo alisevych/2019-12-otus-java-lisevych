@@ -11,7 +11,7 @@ public class HelloOtus {
     public static void main(String... args) throws IOException {
 
         int intReceived = getPositiveInteger();
-        System.out.format("Factorial of %d is %d\n", intReceived, BigIntegerMath.factorial(intReceived).longValue());
+        System.out.format("Factorial of %d is %d\n", intReceived, BigIntegerMath.factorial(intReceived));
 
     }
 

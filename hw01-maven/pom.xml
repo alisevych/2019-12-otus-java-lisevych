@@ -37,7 +37,6 @@
                     <archive>
                         <manifestEntries>
                             <url>${project.url}</url>
-                            <build-jdk>${maven.compiler.source}</build-jdk>
                         </manifestEntries>
                         <manifest>
                             <mainClass>ru.otus.hw01.HelloOtus</mainClass>
