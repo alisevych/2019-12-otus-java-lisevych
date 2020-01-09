@@ -47,26 +47,15 @@
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
-                    <configuration>
-                        <verbose>true</verbose>
-                        <fork>true</fork>
-                        <!--define JAVA_13_HOME in ~\.m2\settings.xml or export JAVA_13_HOME in ~/.bash_profile-->
-                        <executable>${JAVA_13_HOME}/bin/javac</executable>
-                        <compilerVersion>1.3</compilerVersion>
-                    </configuration>
-                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.1.1</version>
                 </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
-
 
 </project>

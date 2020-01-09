@@ -27,6 +27,7 @@
         <finalName>${project.name}</finalName>
 
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -37,7 +38,6 @@
                     <archive>
                         <manifestEntries>
                             <url>${project.url}</url>
-                            <build-jdk>${maven.compiler.release}</build-jdk>
                         </manifestEntries>
                         <manifest>
                             <mainClass>ru.otus.hw01.HelloOtus</mainClass>
@@ -54,8 +54,8 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
-
 
 </project>
