@@ -10,14 +10,14 @@
         <version>2019-12-SNAPSHOT</version>
     </parent>
 
-
     <artifactId>hw02-generics</artifactId>
     <name>hw02-generics</name>
 
     <dependencies>
+        <!-- JUnit5 (jupiter) -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
