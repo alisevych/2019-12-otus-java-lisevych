@@ -1,14 +1,25 @@
 package ru.otus.generics;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class DIYArrayList<E> implements List<E> {
 
+    private static final int DEFAULT_INITIAL_ARRAY_LENGTH = 10;
+
     private int size = 0;
-    private E[] array;
+    private Object elements[];
+
+    public DIYArrayList(){
+        elements = new Object[DEFAULT_INITIAL_ARRAY_LENGTH];
+    }
+
+    public DIYArrayList(int initialArrayLength){
+        if (initialArrayLength >= 0) {
+            elements = new Object[initialArrayLength];
+        } else {
+            throw new IllegalArgumentException("Illegal Array length : " + initialArrayLength);
+        }
+    }
 
     @Override
     public int size() {
@@ -44,11 +55,13 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
+        size++;
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
+        size--;
         return false;
     }
 
@@ -59,16 +72,19 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        //ToDO correct size
         return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        //ToDO correct size
         return false;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        //ToDO correct size
         return false;
     }
 
@@ -79,7 +95,7 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-
+        size = 0;
     }
 
     @Override
@@ -94,11 +110,12 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-
+        size++;
     }
 
     @Override
     public E remove(int index) {
+        size--;
         return null;
     }
 

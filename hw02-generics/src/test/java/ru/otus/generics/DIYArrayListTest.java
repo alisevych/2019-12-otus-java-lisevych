@@ -12,7 +12,7 @@ class DIYArrayListTest {
 
     @BeforeEach
     void setUp() {
-        DIYArrayList<String> testedList = new DIYArrayList<>();
+        DIYArrayList<String> testedList = new DIYArrayList(20);
         //ToDo create DIYArrayList object and fill it with 20+ elements
     }
 
@@ -21,9 +21,9 @@ class DIYArrayListTest {
         //ToDo tear up created objects
     }
 
-    @DisplayName("behave correctly for method Collections.addAll(Collection<? super T> c, T... elements)")
+    @DisplayName("return correct size after add and remove an element")
     @Test
-    void addAll() {
+    void checkSizeAfterAddAndRemoveElement() {
         //ToDo rename test correctly
     }
 }
