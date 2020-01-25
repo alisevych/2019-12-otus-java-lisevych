@@ -7,17 +7,31 @@ public class DIYArrayList<E> implements List<E> {
     private static final int DEFAULT_INITIAL_ARRAY_LENGTH = 10;
 
     private int size = 0;
+    private int capacity;
     private Object elements[];
 
     public DIYArrayList(){
-        elements = new Object[DEFAULT_INITIAL_ARRAY_LENGTH];
+        capacity = DEFAULT_INITIAL_ARRAY_LENGTH;
+        elements = new Object[capacity];
+        size = 0;
     }
 
     public DIYArrayList(int initialArrayLength){
         if (initialArrayLength >= 0) {
-            elements = new Object[initialArrayLength];
+            capacity = initialArrayLength;
+            elements = new Object[capacity];
+            size = 0;
         } else {
             throw new IllegalArgumentException("Illegal Array length : " + initialArrayLength);
+        }
+    }
+
+    public DIYArrayList(Collection<? extends E> initialCollection){
+        this();
+        if (initialCollection.size() > 0) {
+            elements = initialCollection.toArray();
+            size = elements.length;
+            capacity = size;
         }
     }
 
@@ -45,24 +59,29 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return Arrays.copyOf(elements, size);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        a = (T[]) Arrays.copyOf(elements , size, a.getClass());
+        return a;
     }
 
     @Override
     public boolean add(E e) {
-        size++;
+        if (size == capacity) {
+            capacity = capacity * 2;
+            elements = Arrays.copyOf(elements, capacity);
+        }
+        elements[size++] = e;
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
-        size--;
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -72,20 +91,17 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        //ToDO correct size
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        //ToDO correct size
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        //ToDO correct size
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -95,28 +111,36 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
+        capacity = DEFAULT_INITIAL_ARRAY_LENGTH;
+        elements = new Object[capacity];
         size = 0;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public E get(int index) {
-        return null;
+        return (E) elements[index];
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public E set(int index, E element) {
-        return null;
+        if (index >= size) {
+            throw new IllegalArgumentException("Index must be less than size.  Index = " + index + ". Size = " + size);
+        }
+        E oldElement = (E) elements[index];
+        elements[index] = element;
+        return oldElement;
     }
 
     @Override
     public void add(int index, E element) {
-        size++;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public E remove(int index) {
-        size--;
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
