@@ -10,8 +10,8 @@ class DIYArrayListTest {
     private static ArrayList<String> countryNamesList;
     private static String[] countryCodes;
 
-    @BeforeAll
-    private static void setUp() {
+    @BeforeEach
+    private void setUp() {
         countryCodes = Locale.getISOCountries();
         countryNamesList = new ArrayList<>();
         Locale myLocale = new Locale("ru", "RU");
@@ -35,21 +35,18 @@ class DIYArrayListTest {
         countryNamesList.forEach(System.out::println);
     }
 
-    @DisplayName("return correct size after add and remove an element")
+    @DisplayName("return correct size after add an element")
     @Test
-    void checkSizeAfterAddAndRemoveElement() {
+    void checkSizeAfterAddElement() {
         int initialSize = countryNamesList.size();
         countryNamesList.add("Shvambrania");
         Assertions.assertEquals(initialSize + 1, countryNamesList.size());
-        countryNamesList.remove("Albania");
-        Assertions.assertEquals( initialSize, countryNamesList.size());
     }
 
     @DisplayName("construct itself from another Collection")
     @Test
     void checkConstructorfromCollection() {
-        String[] countryCodes = Locale.getISOCountries();
-        ArrayList<String> countryCodesList = new ArrayList<>(Arrays.asList(countryCodes));
+        DIYArrayList<String> countryCodesList = new DIYArrayList<>(Arrays.asList(countryCodes));
         countryCodesList.forEach(System.out::println);
     }
 
@@ -69,9 +66,13 @@ class DIYArrayListTest {
     @DisplayName("correctly copy list with Collections.copy(List<? super T> dest, List<? extends T> src)")
     @Test
     void checkCollectionsCopyMethod() {
-        ArrayList<String> newList = new ArrayList<>();
-        Collections.copy(countryNamesList, newList);
+        ArrayList<String> newList = new ArrayList<>(Arrays.asList(countryCodes));
+        Collections.copy(newList, countryNamesList);
         Assertions.assertEquals(countryNamesList, newList);
+        int index = 0;
+        for (Object newElement : newList){
+            Assertions.assertEquals(newElement, countryNamesList.get(index++));
+        }
     }
 
     @DisplayName("correctly sort list with Collections.sort(List<T> list, Comparator<? super T> c)")
