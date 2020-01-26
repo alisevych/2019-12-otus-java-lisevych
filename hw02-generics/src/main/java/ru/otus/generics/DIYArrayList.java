@@ -49,7 +49,12 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        for (Object element : elements) {
+            if (element.equals(o)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
