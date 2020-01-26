@@ -95,27 +95,22 @@ class DIYArrayListTest {
     @DisplayName("remove elements")
     @Test
     void checkRemoveMethod() {
-        countryNamesList = new DIYArrayList<>(Arrays.asList("test0", "test1", "test2", "test3", "test4"));
+        //countryNamesList = new DIYArrayList<>(Arrays.asList("test0", "test1", "test2", "test3", "test4"));
         Random random = new Random();
         int initialSize = countryNamesList.size();
         int listSize = initialSize;
         int newSize = random.nextInt(initialSize);
         System.out.println("Initial size: " + initialSize + ". New size : " + newSize);
-        int nextIndex = -1;
+        int nextIndex;
         int iterations = 0;
         DIYArrayList<String> removedElementsList = new DIYArrayList<>();
         while (listSize != newSize){
             nextIndex = random.nextInt(listSize);
-            System.out.println("Next index to be removed: " + nextIndex);
             removedElementsList.add(countryNamesList.remove(nextIndex));
             listSize = countryNamesList.size();
             iterations++;
         }
         Assertions.assertEquals(initialSize - newSize, iterations);
-        System.out.println("Remaining: ");
-        countryNamesList.forEach(System.out::println);
-        System.out.println("Removed: ");
-        removedElementsList.forEach(System.out::println);
-        Assertions.assertFalse(Collections.disjoint(countryNamesList, removedElementsList));
+        Assertions.assertTrue(Collections.disjoint(countryNamesList, removedElementsList));
     }
 }

@@ -169,12 +169,10 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        int i = 0;
-        for (Object element : elements) {
-            if (element.equals(o)) {
+        for (int i=0; i < size(); i++) {
+            if (elements[i].equals(o)) {
                 return i;
             }
-            i++;
         }
         return -1;
     }
@@ -212,7 +210,9 @@ public class DIYArrayList<E> implements List<E> {
             if (!hasNext())
                 throw new NoSuchElementException();
             lastReturned = cursor;
-            return (E) elements[cursor++];
+            @SuppressWarnings("unchecked")
+            E element = (E) elements[cursor++];
+            return element;
         }
     }
 
@@ -247,7 +247,9 @@ public class DIYArrayList<E> implements List<E> {
             if (!hasPrevious())
                 throw new NoSuchElementException();
             lastReturned = previousIndex();
-            return (E) elements[lastReturned];
+            @SuppressWarnings("unchecked")
+            E element = (E) elements[cursor++];
+            return element;
         }
 
         @Override
