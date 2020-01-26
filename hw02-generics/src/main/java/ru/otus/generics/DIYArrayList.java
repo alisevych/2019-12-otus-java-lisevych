@@ -57,15 +57,16 @@ public class DIYArrayList<E> implements List<E> {
         return new MyItr();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Object[] toArray() {
-        return Arrays.copyOf(elements, size);
+    public E[] toArray() {
+        return (E[]) Arrays.copyOf(elements, size);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T[] toArray(T[] a) {
-        a = (T[]) Arrays.copyOf(elements , size, a.getClass());
+    public <E> E[] toArray(E[] a) {
+        a = (E[]) Arrays.copyOf(elements , size, a.getClass());
         return a;
     }
 
