@@ -7,13 +7,17 @@ import java.util.*;
 @DisplayName("DIYArrayList must")
 class DIYArrayListTest {
 
-    private static ArrayList<String> countryNamesList;
+    private static DIYArrayList<String> countryNamesList;
     private static String[] countryCodes;
 
-    @BeforeEach
-    private void setUp() {
+    @BeforeAll
+    private static void setUp() {
         countryCodes = Locale.getISOCountries();
-        countryNamesList = new ArrayList<>();
+        fillCountryNamesList();
+    }
+
+    private static void fillCountryNamesList(){
+        countryNamesList = new DIYArrayList<>();
         Locale myLocale = new Locale("ru", "RU");
         Locale locale;
         for (String countryCode : countryCodes){
@@ -29,17 +33,17 @@ class DIYArrayListTest {
         countryNamesList = null;
     }
 
-    @DisplayName("print values with forEach")
+    @DisplayName("iterate through list and print elements")
     @Test
-    void printArrayList() {
+    void iterateAndPrintElements() {
         countryNamesList.forEach(System.out::println);
     }
 
-    @DisplayName("return correct size after add an element")
+    @DisplayName("add an element and return correct size")
     @Test
     void checkSizeAfterAddElement() {
         int initialSize = countryNamesList.size();
-        countryNamesList.add("Shvambrania");
+        countryNamesList.add("Швамбрания");
         Assertions.assertEquals(initialSize + 1, countryNamesList.size());
     }
 
@@ -50,11 +54,11 @@ class DIYArrayListTest {
         countryCodesList.forEach(System.out::println);
     }
 
-    @DisplayName("correctly addAll elements with Collections.addAll(Collection<? super T> c, T... elements)")
+    @DisplayName("addAll elements with Collections.addAll(Collection<? super T> c, T... elements)")
     @Test
     void checkCollectionsAddAllMethod() {
         int initialSize = countryNamesList.size();
-        String added1 = "Added1", added2 = "Added2", added3 = "Added3";
+        String added1 = "Страна Лиллипутов", added2 = "Страна Великанов", added3 = "Страна Снежной королевы";
         int numberOfElementsAdded = 3;
         Collections.addAll(countryNamesList, added1, added2, added3);
         Assertions.assertTrue(countryNamesList.contains(added1));
@@ -63,19 +67,19 @@ class DIYArrayListTest {
         Assertions.assertEquals(initialSize + numberOfElementsAdded, countryNamesList.size());
     }
 
-    @DisplayName("correctly copy list with Collections.copy(List<? super T> dest, List<? extends T> src)")
+    @DisplayName("copy list with Collections.copy(List<? super T> dest, List<? extends T> src)")
     @Test
     void checkCollectionsCopyMethod() {
-        ArrayList<String> newList = new ArrayList<>(Arrays.asList(countryCodes));
-        Collections.copy(newList, countryNamesList);
-        Assertions.assertEquals(countryNamesList, newList);
+        fillCountryNamesList();
+        DIYArrayList<String> codeList = new DIYArrayList<>(Arrays.asList(countryCodes));
+        Collections.copy(codeList, countryNamesList);
         int index = 0;
-        for (Object newElement : newList){
+        for (Object newElement : codeList){
             Assertions.assertEquals(newElement, countryNamesList.get(index++));
         }
     }
 
-    @DisplayName("correctly sort list with Collections.sort(List<T> list, Comparator<? super T> c)")
+    @DisplayName("sort list with Collections.sort(List<T> list, Comparator<? super T> c)")
     @Test
     void checkCollectionsSortMethod() {
         Collections.sort(countryNamesList, Collections.reverseOrder());
@@ -86,5 +90,32 @@ class DIYArrayListTest {
             Assertions.assertTrue(countryName.compareTo(previousName) <= 0);
             previousName = countryName;
         }
+    }
+
+    @DisplayName("remove elements")
+    @Test
+    void checkRemoveMethod() {
+        countryNamesList = new DIYArrayList<>(Arrays.asList("test0", "test1", "test2", "test3", "test4"));
+        Random random = new Random();
+        int initialSize = countryNamesList.size();
+        int listSize = initialSize;
+        int newSize = random.nextInt(initialSize);
+        System.out.println("Initial size: " + initialSize + ". New size : " + newSize);
+        int nextIndex = -1;
+        int iterations = 0;
+        DIYArrayList<String> removedElementsList = new DIYArrayList<>();
+        while (listSize != newSize){
+            nextIndex = random.nextInt(listSize);
+            System.out.println("Next index to be removed: " + nextIndex);
+            removedElementsList.add(countryNamesList.remove(nextIndex));
+            listSize = countryNamesList.size();
+            iterations++;
+        }
+        Assertions.assertEquals(initialSize - newSize, iterations);
+        System.out.println("Remaining: ");
+        countryNamesList.forEach(System.out::println);
+        System.out.println("Removed: ");
+        removedElementsList.forEach(System.out::println);
+        Assertions.assertFalse(Collections.disjoint(countryNamesList, removedElementsList));
     }
 }
