@@ -16,16 +16,6 @@ public class DIYArrayList<E> implements List<E> {
         size = 0;
     }
 
-    public DIYArrayList(int initialCapacity){
-        if (initialCapacity > 0) {
-            capacity = initialCapacity;
-            elements = new Object[capacity];
-            size = 0;
-        } else {
-            throw new IllegalArgumentException("Illegal Array length : " + initialCapacity);
-        }
-    }
-
     public DIYArrayList(Collection<? extends E> initialCollection){
         this();
         if (initialCollection.size() > 0) {
@@ -57,17 +47,15 @@ public class DIYArrayList<E> implements List<E> {
         return new MyItr();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public E[] toArray() {
-        return (E[]) Arrays.copyOf(elements, size);
+        @SuppressWarnings("unchecked") E[] newArray = (E[]) Arrays.copyOf(elements, size);
+        return newArray;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <E> E[] toArray(E[] a) {
-        a = (E[]) Arrays.copyOf(elements , size, a.getClass());
-        return a;
+        throw new UnsupportedOperationException();
     }
 
     private void growIfNeeded() {
@@ -116,9 +104,7 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-        capacity = DEFAULT_INITIAL_ARRAY_LENGTH;
-        elements = new Object[capacity];
-        size = 0;
+        throw new UnsupportedOperationException();
     }
 
     private void checkIndex(int index) {
@@ -127,41 +113,30 @@ public class DIYArrayList<E> implements List<E> {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public E get(int index) {
         checkIndex(index);
-        return (E) elements[index];
+        @SuppressWarnings("unchecked") E element = (E) elements[index];
+        return element;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public E set(int index, E element) {
         checkIndex(index);
-        E oldElement = (E) elements[index];
+        @SuppressWarnings("unchecked")E oldElement = (E) elements[index];
         elements[index] = element;
         return oldElement;
     }
 
     @Override
     public void add(int index, E element) {
-        checkIndex(index);
-        if (index == size - 1) {
-            add(element);
-        } else {
-            growIfNeeded();
-            int remainingSize = size - index;
-            System.arraycopy(elements, index , elements, index + 1, remainingSize);
-            elements[index] = element;
-            size++;
-        }
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public E remove(int index) {
         checkIndex(index);
-        @SuppressWarnings("unchecked")
-        E removedElement = (E) elements[index];
+        @SuppressWarnings("unchecked") E removedElement = (E) elements[index];
         int remainingSize = size - index - 1;
         System.arraycopy(elements, index + 1, elements, index, remainingSize);
         size--;
@@ -190,7 +165,7 @@ public class DIYArrayList<E> implements List<E> {
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return new MyListItr(index);
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -211,26 +186,16 @@ public class DIYArrayList<E> implements List<E> {
             if (!hasNext())
                 throw new NoSuchElementException();
             lastReturned = cursor;
-            @SuppressWarnings("unchecked")
-            E element = (E) elements[cursor++];
+            @SuppressWarnings("unchecked") E element = (E) elements[cursor++];
             return element;
         }
     }
 
     private class MyListItr extends MyItr implements ListIterator<E> {
 
-        MyListItr() {
-        }
-
-        MyListItr(int index) {
-            if (index >= size)
-                throw new IllegalArgumentException("Index must be < size.");
-            cursor = index;
-        }
-
         @Override
         public boolean hasPrevious() {
-            return (cursor > 0);
+            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -240,26 +205,17 @@ public class DIYArrayList<E> implements List<E> {
 
         @Override
         public int previousIndex() {
-            return cursor - 1;
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public E previous() {
-            if (!hasPrevious())
-                throw new NoSuchElementException();
-            lastReturned = previousIndex();
-            @SuppressWarnings("unchecked")
-            E element = (E) elements[cursor++];
-            return element;
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void remove() {
-            if (lastReturned == -1)
-                throw new IllegalStateException("No elements were returned yet. Not know which to remove.");
-            DIYArrayList.this.remove(lastReturned);
-            cursor--;
-            lastReturned = -1;
+            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -269,7 +225,7 @@ public class DIYArrayList<E> implements List<E> {
 
         @Override
         public void add(E e) {
-            DIYArrayList.this.add(nextIndex(), e);
+            throw new UnsupportedOperationException();
         }
     }
 

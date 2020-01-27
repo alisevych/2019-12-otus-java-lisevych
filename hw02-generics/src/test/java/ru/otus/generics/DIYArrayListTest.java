@@ -29,7 +29,6 @@ class DIYArrayListTest {
     @AfterAll
     private static void tearDown() {
         countryCodes = null;
-        countryNamesList.clear();
         countryNamesList = null;
     }
 
