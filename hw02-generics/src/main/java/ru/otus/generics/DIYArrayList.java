@@ -258,11 +258,7 @@ public class DIYArrayList<E> implements List<E> {
             if (lastReturned == -1)
                 throw new IllegalStateException("No elements were returned yet. Not know which to remove.");
             DIYArrayList.this.remove(lastReturned);
-            if (lastReturned < cursor) {
-                cursor--;
-            } else if (size() == cursor){
-                cursor = size;
-            }
+            cursor--;
             lastReturned = -1;
         }
 
