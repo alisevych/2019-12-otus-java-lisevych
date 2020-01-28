@@ -16,12 +16,21 @@ public class DIYArrayList<E> implements List<E> {
         size = 0;
     }
 
+    public DIYArrayList(int initialCapacity){
+        capacity = initialCapacity;
+        elements = new Object[capacity];
+        size = 0;
+    }
+
     public DIYArrayList(Collection<? extends E> initialCollection){
-        this();
         if (initialCollection.size() > 0) {
             elements = initialCollection.toArray();
             size = elements.length;
             capacity = size;
+        } else {
+            capacity = DEFAULT_INITIAL_ARRAY_LENGTH;
+            elements = new Object[capacity];
+            size = 0;
         }
     }
 
@@ -68,7 +77,8 @@ public class DIYArrayList<E> implements List<E> {
     @Override
     public boolean add(E e) {
         growIfNeeded();
-        elements[size++] = e;
+        elements[size] = e;
+        size++;
         return false;
     }
 

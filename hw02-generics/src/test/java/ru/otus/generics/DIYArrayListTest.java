@@ -17,19 +17,14 @@ class DIYArrayListTest {
     }
 
     private static void fillCountryNamesList(){
-        countryNamesList = new DIYArrayList<>();
+        int sizeNeeded = countryCodes.length;
+        countryNamesList = new DIYArrayList<>(sizeNeeded);
         Locale myLocale = new Locale("ru", "RU");
         Locale locale;
         for (String countryCode : countryCodes){
             locale = new Locale("ru", countryCode);
             countryNamesList.add(locale.getDisplayCountry(myLocale));
         }
-    }
-
-    @AfterAll
-    private static void tearDown() {
-        countryCodes = null;
-        countryNamesList = null;
     }
 
     @DisplayName("iterate through list and print elements")
@@ -48,9 +43,9 @@ class DIYArrayListTest {
 
     @DisplayName("construct itself from another Collection")
     @Test
-    void checkConstructorfromCollection() {
+    void checkConstructorFromCollection() {
         DIYArrayList<String> countryCodesList = new DIYArrayList<>(Arrays.asList(countryCodes));
-        countryCodesList.forEach(System.out::println);
+        countryCodesList.forEach(code -> Assertions.assertNotEquals(code,""));
     }
 
     @DisplayName("addAll elements with Collections.addAll(Collection<? super T> c, T... elements)")
@@ -84,8 +79,6 @@ class DIYArrayListTest {
         Collections.sort(countryNamesList, Collections.reverseOrder());
         String previousName = "яяяяяяяя";
         for (String countryName : countryNamesList){
-            //System.out.println(countryName);
-            //System.out.println(countryName.compareTo(previousName));
             Assertions.assertTrue(countryName.compareTo(previousName) <= 0);
             previousName = countryName;
         }
@@ -94,7 +87,6 @@ class DIYArrayListTest {
     @DisplayName("remove elements")
     @Test
     void checkRemoveMethod() {
-        //countryNamesList = new DIYArrayList<>(Arrays.asList("test0", "test1", "test2", "test3", "test4"));
         Random random = new Random();
         int initialSize = countryNamesList.size();
         int listSize = initialSize;
