@@ -23,6 +23,8 @@
 разница времени работы программы ~ на 10%, то есть продолжительность времени работы программы сходная,
 **рекомендуется использовать G1 GC для данной системы и данной программы.**<br/>
 ## Конфигурация системы, на которой проводились измерения ##
+Virtual Machine: OpenJDK 64-Bit Server VM version 13.0.1+9<br/>
+Vendor: Oracle Corporation<br/>
 Operating System: Windows 10 10.0<br/>
 Architecture: amd64<br/>
 Number of processors: 4<br/>
