@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DemoTest {
 
@@ -32,7 +32,8 @@ class DemoTest {
     @Test
     @DisplayName("method call with param is logged in console")
     void callActionAndCheckLogInConsole() {
+        String expectedLog = "executed method: calculation, param: 6";
         new TestLogging().calculation(6);
-        assertEquals("executed method: calculation, param: 6\n", outContent.toString());
+        assertThat(outContent.toString()).contains(expectedLog);
     }
 }
