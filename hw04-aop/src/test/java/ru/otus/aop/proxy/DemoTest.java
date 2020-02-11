@@ -16,6 +16,8 @@ class DemoTest {
     private static final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private static final PrintStream originalOut = System.out;
     private static final PrintStream originalErr = System.err;
+    private static final TestLoggingInterface testLogging = IoC.getTestLoggingInstance();
+
 
     @BeforeAll
     public static void setUpStreams() {
@@ -30,10 +32,17 @@ class DemoTest {
     }
 
     @Test
-    @DisplayName("method call with param is logged in console")
-    void callActionAndCheckLogInConsole() {
-        String expectedLog = "executed method: calculation, param: 6";
-        new TestLogging().calculation(6);
-        assertThat(outContent.toString()).contains(expectedLog);
+    @DisplayName("annotated with @Log method call with param is logged in console")
+    void checkLoggingForAnnotatedMethod() {
+        testLogging.calculation(6);
+        assertThat(outContent.toString()).contains("executed method: calculation, param: 6");
     }
+
+    @Test
+    @DisplayName("Not annotated with @Log method call is Not logged in console")
+    void checkLoggingIsAbsentForNotAnnotatedMethod() {
+        testLogging.withoutLog(15);
+        assertThat(outContent.toString()).doesNotContain("executed method: withoutLog, paramparam: 15");
+    }
+
 }
