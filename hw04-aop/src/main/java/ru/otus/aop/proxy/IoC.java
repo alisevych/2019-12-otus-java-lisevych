@@ -35,6 +35,7 @@ class IoC {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            //ToDo method belongs to TestLoggingInterface, not TestLogging class - how to compare???
             if (logMethods.contains(method)) {
                 logMethodInvokation(method, args);
             }
