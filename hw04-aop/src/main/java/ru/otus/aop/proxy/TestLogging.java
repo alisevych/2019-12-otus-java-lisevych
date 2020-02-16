@@ -12,4 +12,25 @@ public class TestLogging implements TestLoggingInterface {
     @Override
     public void withoutLog(int paramparam) {
     }
+
+    @Override
+    @Log
+    public void calculation(int param, String paramaram) {
+    }
+
+    @Override
+    @Log
+    public void calculation(String param) {
+    }
+
+    @Override
+    @Log
+    public void calculation1(int param) {
+    }
+
+    @Override
+    @Log
+    public void calculation() {
+    }
+
 }

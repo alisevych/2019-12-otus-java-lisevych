@@ -17,7 +17,9 @@ class IoC {
     static class LoggerMethodsWrapperHandler implements InvocationHandler {
 
         private final TestLogging testObject;
-        private final List<Method> logMethods = new ArrayList<>();
+        private final List<String> logMethodNames = new ArrayList<>();
+        private final List<Class<?>[]> logMethodParams = new ArrayList<>();
+
 
         LoggerMethodsWrapperHandler(TestLogging testObject) {
             this.testObject = testObject;
@@ -28,17 +30,39 @@ class IoC {
             Method[] allMethods = testObject.getClass().getDeclaredMethods();
             for (Method method : allMethods) {
                 if (method.getAnnotation(Log.class) != null) {
-                    logMethods.add(method);
+                    logMethodNames.add(method.getName());
+                    logMethodParams.add(method.getParameterTypes());
                 }
             }
         }
 
+        private boolean isMethodInListToLog(Method method) {
+            int index = 0;
+            for (String nameSaved : logMethodNames) {
+                if (nameSaved.equals(method.getName())) {
+                    Class<?>[] savedParamTypes = logMethodParams.get(index);
+                    Class<?>[] methodParamTypes = method.getParameterTypes();
+                    if (savedParamTypes.length == methodParamTypes.length) {
+                        int i = 0;
+                        for (Class type : savedParamTypes) {
+                            if (!type.equals(methodParamTypes[i])) {
+                                break;
+                            }
+                            i++;
+                        }
+                        return true;
+                    }
+                }
+                index++;
+            }
+            return  false;
+        }
+
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            //ToDo method belongs to TestLoggingInterface, not TestLogging class - how to compare???
-            //if (logMethods.contains(method)) {
+            if (isMethodInListToLog(method)) {
                 logMethodInvokation(method, args);
-            //}
+            }
             return method.invoke(testObject, args);
         }
 

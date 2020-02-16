@@ -29,13 +29,29 @@ class DemoTest {
     public static void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
+        System.out.print(outContent.toString());
+        System.out.print(errContent.toString());
     }
 
     @Test
     @DisplayName("annotated with @Log method call with param is logged in console")
     void checkLoggingForAnnotatedMethod() {
         testLogging.calculation(6);
-        assertThat(outContent.toString()).contains("executed method: calculation, param: 6");
+        assertThat(outContent.toString()).contains("executed method: calculation, param: 6\n");
+    }
+
+    @Test
+    @DisplayName("annotated with @Log method call with 2 parameters is logged in console")
+    void checkLoggingForAnnotatedWithTwoParametersMethod() {
+        testLogging.calculation(7, "complex");
+        assertThat(outContent.toString()).contains("executed method: calculation, param: 7, paramaram: complex\n");
+    }
+
+    @Test
+    @DisplayName("annotated with @Log method call without parameters is logged in console")
+    void checkLoggingForAnnotatedWithoutParametersMethod() {
+        testLogging.calculation();
+        assertThat(outContent.toString()).contains("executed method: calculation\n");
     }
 
     @Test
