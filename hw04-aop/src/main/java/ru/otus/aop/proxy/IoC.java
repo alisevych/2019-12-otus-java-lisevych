@@ -17,7 +17,7 @@ class IoC {
     static class LoggerMethodsWrapperHandler implements InvocationHandler {
 
         private final TestLogging testObject;
-        private final List<String> logMethods = new ArrayList<>();
+        private final List<String> logMethodsAbbrv = new ArrayList<>();
 
         LoggerMethodsWrapperHandler(TestLogging testObject) {
             this.testObject = testObject;
@@ -28,7 +28,7 @@ class IoC {
             Method[] allMethods = testObject.getClass().getDeclaredMethods();
             for (Method method : allMethods) {
                 if (method.getAnnotation(Log.class) != null) {
-                    logMethods.add(methodToString(method));
+                    logMethodsAbbrv.add(methodToString(method));
                 }
             }
         }
@@ -43,7 +43,7 @@ class IoC {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (logMethods.contains(methodToString(method))) {
+            if (logMethodsAbbrv.contains(methodToString(method))) {
                 logMethodInvokation(method, args);
             }
             return method.invoke(testObject, args);
