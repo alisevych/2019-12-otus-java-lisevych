@@ -17,9 +17,7 @@ class IoC {
     static class LoggerMethodsWrapperHandler implements InvocationHandler {
 
         private final TestLogging testObject;
-        private final List<String> logMethodNames = new ArrayList<>();
-        private final List<Class<?>[]> logMethodParams = new ArrayList<>();
-
+        private final List<String> logMethods = new ArrayList<>();
 
         LoggerMethodsWrapperHandler(TestLogging testObject) {
             this.testObject = testObject;
@@ -30,37 +28,22 @@ class IoC {
             Method[] allMethods = testObject.getClass().getDeclaredMethods();
             for (Method method : allMethods) {
                 if (method.getAnnotation(Log.class) != null) {
-                    logMethodNames.add(method.getName());
-                    logMethodParams.add(method.getParameterTypes());
+                    logMethods.add(methodToString(method));
                 }
             }
         }
 
-        private boolean isMethodInListToLog(Method method) {
-            int index = 0;
-            for (String nameSaved : logMethodNames) {
-                if (nameSaved.equals(method.getName())) {
-                    Class<?>[] savedParamTypes = logMethodParams.get(index);
-                    Class<?>[] methodParamTypes = method.getParameterTypes();
-                    if (savedParamTypes.length == methodParamTypes.length) {
-                        int i = 0;
-                        for (Class type : savedParamTypes) {
-                            if (!type.equals(methodParamTypes[i])) {
-                                break;
-                            }
-                            i++;
-                        }
-                        return true;
-                    }
-                }
-                index++;
+        private String methodToString(Method method) {
+            String result = method.getName();
+            for (Class<?> type : method.getParameterTypes()){
+                result = String.join(",", result, type.getName());
             }
-            return  false;
+            return result;
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (isMethodInListToLog(method)) {
+            if (logMethods.contains(methodToString(method))) {
                 logMethodInvokation(method, args);
             }
             return method.invoke(testObject, args);
