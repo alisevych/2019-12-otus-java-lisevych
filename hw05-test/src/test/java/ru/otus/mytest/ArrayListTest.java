@@ -1,7 +1,17 @@
 package ru.otus.mytest;
 
-import ru.otus.mytest.runner.*;
-import static org.assertj.core.api.Assertions.assertThat;
+/*
+ * Uncomment 1 import to switch between JUnit runner and MyTest.runner
+ */
+
+//import ru.otus.mytest.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import ru.otus.mytest.Before;
+import ru.otus.mytest.After;
+
 import java.util.*;
 
 class ArrayListTest {
@@ -9,36 +19,30 @@ class ArrayListTest {
     private static ArrayList<String> countryNamesList;
     private static String[] countryCodes;
 
-    @BeforeAll
-    private static void setUp() {
+    @Before
+    @BeforeEach
+    private void setUp() {
+        System.out.println("executed: set up");
         countryCodes = Locale.getISOCountries();
         fillCountryNamesList();
     }
 
+    @Before
     @BeforeEach
-    private void beforeTest1() {
-        System.out.println("Before another test 1 ===============");
+    private void beforeTest() {
+        System.out.println("executed: before test");
     }
 
-    @BeforeEach
-    private void beforeTest2() {
-        System.out.println("=============== 2 again: Before each test");
-    }
-
+    @After
     @AfterEach
-    private void afterTest1() {
-        System.out.println("After another test 1 ===============");
+    private void afterTest() {
+        System.out.println("executed: after test");
     }
 
+    @After
     @AfterEach
-    private void afterTest2() {
-        System.out.println("=============== 2 again: After each test");
-    }
-
-    @AfterAll
-    private static void cleanUp() {
-        countryCodes = null;
-        countryNamesList = null;
+    private void cleanUp() {
+        System.out.println("executed: clean up");
     }
 
     private static void fillCountryNamesList(){
@@ -53,21 +57,16 @@ class ArrayListTest {
     }
 
     @Test
-    void iterateAndPrintElements() {
-        countryNamesList.forEach(System.out::println);
-    }
-
-    @Test
     void checkSizeAfterAddElement() {
         int initialSize = countryNamesList.size();
         countryNamesList.add("Швамбрания");
-        assertEquals(initialSize + 1, countryNamesList.size());
+        assert (initialSize + 1 == countryNamesList.size());
     }
 
     @Test
     void checkConstructorFromCollection() {
         ArrayList<String> countryCodesList = new ArrayList<>(Arrays.asList(countryCodes));
-        countryCodesList.forEach(code -> assertNotEquals(code,""));
+        countryCodesList.forEach(code -> {assert (code != "");});
     }
 
     @Test
@@ -76,10 +75,10 @@ class ArrayListTest {
         String added1 = "Страна Лиллипутов", added2 = "Страна Великанов", added3 = "Страна Снежной королевы";
         int numberOfElementsAdded = 3;
         Collections.addAll(countryNamesList, added1, added2, added3);
-        assertTrue(countryNamesList.contains(added1));
-        assertTrue(countryNamesList.contains(added2));
-        assertTrue(countryNamesList.contains(added3));
-        assertEquals(initialSize + numberOfElementsAdded, countryNamesList.size());
+        assert (countryNamesList.contains(added1));
+        assert (countryNamesList.contains(added2));
+        assert (countryNamesList.contains(added3));
+        assert (initialSize + numberOfElementsAdded == countryNamesList.size());
     }
 
     @Test
@@ -89,7 +88,7 @@ class ArrayListTest {
         Collections.copy(codeList, countryNamesList);
         int index = 0;
         for (Object newElement : codeList){
-            assertEquals(newElement, countryNamesList.get(index++));
+            assert (newElement == countryNamesList.get(index++));
         }
     }
 
@@ -98,7 +97,7 @@ class ArrayListTest {
         Collections.sort(countryNamesList, Collections.reverseOrder());
         String previousName = "яяяяяяяя";
         for (String countryName : countryNamesList){
-            assertTrue(countryName.compareTo(previousName) <= 0);
+            assert(countryName.compareTo(previousName) <= 0);
             previousName = countryName;
         }
     }
@@ -109,7 +108,6 @@ class ArrayListTest {
         int initialSize = countryNamesList.size();
         int listSize = initialSize;
         int newSize = random.nextInt(initialSize);
-        System.out.println("Initial size: " + initialSize + ". New size : " + newSize);
         int nextIndex;
         int iterations = 0;
         ArrayList<String> removedElementsList = new ArrayList<>();
@@ -119,7 +117,7 @@ class ArrayListTest {
             listSize = countryNamesList.size();
             iterations++;
         }
-        assertEquals(initialSize - newSize, iterations);
-        assertTrue(Collections.disjoint(countryNamesList, removedElementsList));
+        assert (initialSize - newSize == iterations);
+        assert(Collections.disjoint(countryNamesList, removedElementsList));
     }
 }

@@ -1,4 +1,4 @@
-package ru.otus.mytest.runner;
+package ru.otus.mytest;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.otus.mytest.runner;
+package ru.otus.mytest;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
