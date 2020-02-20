@@ -21,7 +21,7 @@ class ArrayListTest {
 
     @Before
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         System.out.println("executed: set up");
         countryCodes = Locale.getISOCountries();
         fillCountryNamesList();
@@ -29,23 +29,23 @@ class ArrayListTest {
 
     @Before
     @BeforeEach
-    private void beforeTest() {
+    void beforeTest() {
         System.out.println("executed: before test");
     }
 
     @After
     @AfterEach
-    private void afterTest() {
+    void afterTest() {
         System.out.println("executed: after test");
     }
 
     @After
     @AfterEach
-    private void cleanUp() {
+    void cleanUp() {
         System.out.println("executed: clean up");
     }
 
-    private static void fillCountryNamesList(){
+    static void fillCountryNamesList(){
         int sizeNeeded = countryCodes.length;
         countryNamesList = new ArrayList<>(sizeNeeded);
         Locale myLocale = new Locale("ru", "RU");
@@ -66,7 +66,7 @@ class ArrayListTest {
     @Test
     void checkConstructorFromCollection() {
         ArrayList<String> countryCodesList = new ArrayList<>(Arrays.asList(countryCodes));
-        countryCodesList.forEach(code -> {assert (code != "");});
+        countryCodesList.forEach(code -> {assert (code.equals(""));});
     }
 
     @Test

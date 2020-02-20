@@ -1,6 +1,5 @@
 package ru.otus.mytest;
 
-import org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 import ru.otus.mytest.Runner;
