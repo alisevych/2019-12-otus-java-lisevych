@@ -5,6 +5,7 @@ package ru.otus.mytest;
  */
 
 //import ru.otus.mytest.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -64,9 +65,10 @@ class ArrayListTest {
     }
 
     @Test
+    @DisplayName("SPOILT - check constructor from collection")
     void checkConstructorFromCollection() {
         ArrayList<String> countryCodesList = new ArrayList<>(Arrays.asList(countryCodes));
-        countryCodesList.forEach(code -> {assert (code.equals(""));});
+        countryCodesList.forEach(code -> {assert (code.equals("!"));});
     }
 
     @Test
@@ -103,6 +105,7 @@ class ArrayListTest {
     }
 
     @Test
+    @DisplayName("SPOILT - check Remove method")
     void checkRemoveMethod() {
         Random random = new Random();
         int initialSize = countryNamesList.size();
@@ -112,11 +115,13 @@ class ArrayListTest {
         int iterations = 0;
         ArrayList<String> removedElementsList = new ArrayList<>();
         while (listSize != newSize){
+            iterations++;
             nextIndex = random.nextInt(listSize);
             removedElementsList.add(countryNamesList.remove(nextIndex));
             listSize = countryNamesList.size();
-            iterations++;
         }
+        // Added last removed element back to countryNamesList
+        countryNamesList.add(removedElementsList.get(iterations - 1));
         assert (initialSize - newSize == iterations);
         assert(Collections.disjoint(countryNamesList, removedElementsList));
     }
