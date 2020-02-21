@@ -3,8 +3,8 @@ package ru.otus.aop.proxy;
 import ru.otus.aop.proxy.annotations.Log;
 
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 class IoC {
 
@@ -17,7 +17,7 @@ class IoC {
     static class LoggerMethodsWrapperHandler implements InvocationHandler {
 
         private final TestLogging testObject;
-        private final List<String> logMethodsAbbrv = new ArrayList<>();
+        private final Set<String> logMethodAbbreviations = new HashSet<>();
 
         LoggerMethodsWrapperHandler(TestLogging testObject) {
             this.testObject = testObject;
@@ -27,8 +27,8 @@ class IoC {
         private void findMethodsWithLogAnnotation() {
             Method[] allMethods = testObject.getClass().getDeclaredMethods();
             for (Method method : allMethods) {
-                if (method.getAnnotation(Log.class) != null) {
-                    logMethodsAbbrv.add(methodToString(method));
+                if (method.isAnnotationPresent(Log.class)) {
+                    logMethodAbbreviations.add(methodToString(method));
                 }
             }
         }
@@ -43,7 +43,7 @@ class IoC {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (logMethodsAbbrv.contains(methodToString(method))) {
+            if (logMethodAbbreviations.contains(methodToString(method))) {
                 logMethodInvokation(method, args);
             }
             return method.invoke(testObject, args);
