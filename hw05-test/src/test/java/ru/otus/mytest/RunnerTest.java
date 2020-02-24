@@ -3,7 +3,6 @@ package ru.otus.mytest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import ru.otus.mytest.Runner;
 
@@ -33,8 +32,10 @@ class RunnerTest {
     @Test
     void executeArrayListTestWithRunner() {
         runner.execute(ArrayListTest.class);
-        //ToDo assert that outContent is correct: order, number of tests, final count;
-        assertThat(outContent.toString()).contains("Test:");
+        assert (outContent.toString()).contains("Total tests run: 7");
+        assert (outContent.toString()).contains("Passed:          3");
+        assert (outContent.toString()).contains("Blocked:         1");
+        assert (outContent.toString()).contains("Failed:          3");
     }
 
     @AfterAll
@@ -42,7 +43,6 @@ class RunnerTest {
         System.setOut(originalOut);
         System.setErr(originalErr);
         System.out.print(outContent.toString());
-        System.out.print(errContent.toString());
     }
 
 }

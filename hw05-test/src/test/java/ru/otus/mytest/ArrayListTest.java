@@ -15,8 +15,6 @@ import ru.otus.mytest.After;
 
 import java.util.*;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 class ArrayListTest {
 
     private static ArrayList<String> countryNamesList;
@@ -44,6 +42,10 @@ class ArrayListTest {
     void cleanUp() {
     }
 
+    @After
+    void after2() {
+    }
+
     static void fillCountryNamesList(){
         int sizeNeeded = countryCodes.length;
         countryNamesList = new ArrayList<>(sizeNeeded);
@@ -66,7 +68,7 @@ class ArrayListTest {
     @DisplayName("SPOILT - check constructor from collection")
     void checkConstructorFromCollection() {
         ArrayList<String> countryCodesList = new ArrayList<>(Arrays.asList(countryCodes));
-        countryCodesList.forEach(code -> assertThat (code.equals("!")));
+        countryCodesList.forEach(code -> {assert (code.equals("!"));});
     }
 
     @Test
@@ -82,13 +84,15 @@ class ArrayListTest {
     }
 
     @Test
+    @DisplayName("SPOILT - check other exception - test must be BLOCKED")
     void checkCollectionsCopyMethod() {
         fillCountryNamesList();
         ArrayList<String> codeList = new ArrayList<>(Arrays.asList(countryCodes));
         Collections.copy(codeList, countryNamesList);
         int index = 0;
+        countryNamesList.get(1000);
         for (Object newElement : codeList){
-            assertThat (newElement == countryNamesList.get(index++));
+            assert (newElement == countryNamesList.get(index++));
         }
     }
 
@@ -120,8 +124,13 @@ class ArrayListTest {
         }
         // Added last removed element back to countryNamesList
         countryNamesList.add(removedElementsList.get(iterations - 1));
-        assertThat (initialSize - newSize == iterations);
-        assertThat(Collections.disjoint(countryNamesList, removedElementsList));
+        assert  (initialSize - newSize == iterations);
+        assert (Collections.disjoint(countryNamesList, removedElementsList));
         System.out.println("Where are the errors?");
+    }
+
+    @Test
+    void checkAssertionError() {
+        assert  (false);
     }
 }
