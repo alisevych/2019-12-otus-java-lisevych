@@ -4,9 +4,9 @@ package ru.otus.mytest;
  * Uncomment 1 import to switch between JUnit runner and MyTest.runner
  */
 
-//import ru.otus.mytest.Test;
+import ru.otus.mytest.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +14,8 @@ import ru.otus.mytest.Before;
 import ru.otus.mytest.After;
 
 import java.util.*;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class ArrayListTest {
 
@@ -23,7 +25,6 @@ class ArrayListTest {
     @Before
     @BeforeEach
     void setUp() {
-        System.out.println("executed: set up");
         countryCodes = Locale.getISOCountries();
         fillCountryNamesList();
     }
@@ -31,19 +32,16 @@ class ArrayListTest {
     @Before
     @BeforeEach
     void beforeTest() {
-        System.out.println("executed: before test");
     }
 
     @After
     @AfterEach
     void afterTest() {
-        System.out.println("executed: after test");
     }
 
     @After
     @AfterEach
     void cleanUp() {
-        System.out.println("executed: clean up");
     }
 
     static void fillCountryNamesList(){
@@ -68,7 +66,7 @@ class ArrayListTest {
     @DisplayName("SPOILT - check constructor from collection")
     void checkConstructorFromCollection() {
         ArrayList<String> countryCodesList = new ArrayList<>(Arrays.asList(countryCodes));
-        countryCodesList.forEach(code -> {assert (code.equals("!"));});
+        countryCodesList.forEach(code -> assertThat (code.equals("!")));
     }
 
     @Test
@@ -90,7 +88,7 @@ class ArrayListTest {
         Collections.copy(codeList, countryNamesList);
         int index = 0;
         for (Object newElement : codeList){
-            assert (newElement == countryNamesList.get(index++));
+            assertThat (newElement == countryNamesList.get(index++));
         }
     }
 
@@ -122,7 +120,8 @@ class ArrayListTest {
         }
         // Added last removed element back to countryNamesList
         countryNamesList.add(removedElementsList.get(iterations - 1));
-        assert (initialSize - newSize == iterations);
-        assert(Collections.disjoint(countryNamesList, removedElementsList));
+        assertThat (initialSize - newSize == iterations);
+        assertThat(Collections.disjoint(countryNamesList, removedElementsList));
+        System.out.println("Where are the errors?");
     }
 }

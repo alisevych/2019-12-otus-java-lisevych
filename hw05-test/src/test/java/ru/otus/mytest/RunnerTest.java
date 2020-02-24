@@ -20,12 +20,12 @@ class RunnerTest {
     private static final PrintStream originalErr = System.err;
 
     @BeforeAll
-    public static void setUpRunner() {
+    private static void setUpRunner() {
         runner = new Runner();
     }
 
     @BeforeAll
-    public static void setUpStreams() {
+    private static void setUpStreams() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
@@ -34,11 +34,11 @@ class RunnerTest {
     void executeArrayListTestWithRunner() {
         runner.execute(ArrayListTest.class);
         //ToDo assert that outContent is correct: order, number of tests, final count;
-        assertThat(outContent.toString()).contains("executed:");
+        assertThat(outContent.toString()).contains("Test:");
     }
 
     @AfterAll
-    public static void restoreStreams() {
+    private static void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
         System.out.print(outContent.toString());
