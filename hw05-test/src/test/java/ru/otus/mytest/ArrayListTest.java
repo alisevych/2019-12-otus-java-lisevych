@@ -15,6 +15,8 @@ import ru.otus.mytest.After;
 
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class ArrayListTest {
 
     private static ArrayList<String> countryNamesList;
@@ -131,6 +133,6 @@ class ArrayListTest {
 
     @Test
     void checkAssertionError() {
-        assert  (false);
+        assertTrue(false);
     }
 }

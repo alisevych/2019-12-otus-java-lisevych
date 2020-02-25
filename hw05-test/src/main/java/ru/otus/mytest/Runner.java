@@ -50,7 +50,7 @@ public class Runner {
             System.out.println("Failed: " + exception.getCause() + "\n");
             return ResultCode.FAILED;
         } catch (InvocationTargetException exception) {
-            if (exception.getCause().toString().contains(AssertionError.class.getName())) {
+            if (exception.getCause().toString().contains("Assertion")) {
                 System.out.println("Failed: " + exception.getCause() + "\n");
                 return ResultCode.FAILED;
             } else {
