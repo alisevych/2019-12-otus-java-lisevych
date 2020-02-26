@@ -1,7 +1,6 @@
 package ru.otus.mytest;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,20 +45,8 @@ public class Runner {
                 System.out.println("run: " + methodAbbrv);
                 method.invoke(instance);
             }
-        } catch (AssertionError exception) {
-            System.out.println("Failed: " + exception.getCause() + "\n");
-            return ResultCode.FAILED;
-        } catch (InvocationTargetException exception) {
-            if (exception.getCause().toString().contains("Assertion")) {
-                System.out.println("Failed: " + exception.getCause() + "\n");
-                return ResultCode.FAILED;
-            } else {
-                System.out.println("Blocked: " + exception.getCause() + "\n");
-                return ResultCode.BLOCKED;
-            }
         } catch (Exception exception) {
-            System.out.println("Blocked: " + exception.getCause() + "\n");
-            return ResultCode.BLOCKED;
+            return getResultBasedOnException(exception);
         }
         System.out.println("Passed.\n");
         return ResultCode.PASSED;
@@ -74,6 +61,16 @@ public class Runner {
             }
         }
         return result;
+    }
+
+    private ResultCode getResultBasedOnException(Exception exception) {
+        if (exception.getCause().toString().contains("Assertion")) {
+            System.out.println("Failed: " + exception.getCause() + "\n");
+            return ResultCode.FAILED;
+        } else {
+            System.out.println("Blocked: " + exception.getCause() + "\n");
+            return ResultCode.BLOCKED;
+        }
     }
 
     private void outputStatistics (int iRun, int iPassed, int iBlocked, int iFailed){
