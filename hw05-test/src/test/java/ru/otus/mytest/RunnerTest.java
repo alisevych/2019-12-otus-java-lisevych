@@ -38,6 +38,11 @@ class RunnerTest {
         assert (outContent.toString()).contains("Failed:          3");
     }
 
+    @Test
+    void executeArrayListTestWithRunnerAgain() {
+        executeArrayListTestWithRunner(); // to check counters
+    }
+
     @AfterAll
     private static void restoreStreams() {
         System.setOut(originalOut);
