@@ -1,6 +1,8 @@
 package ru.otus.mytest;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ public class Runner {
     public Runner() {
     }
 
-    public void execute(Class testClass)  {
+    public void execute(Class<?> testClass)  {
         List<Method> allMethods = List.of(testClass.getDeclaredMethods());
         List<Method> beforeMethods = getMethodsWithAnnotation( allMethods, Before.class);
         List<Method> afterMethods = getMethodsWithAnnotation( allMethods, After.class);
@@ -30,9 +32,9 @@ public class Runner {
         outputStatistics (iRun, iPassed, iBlocked, iFailed);
     }
 
-    private ResultCode executeTest( Class testClass, List<Method> methodsSequence) {
+    private ResultCode executeTest( Class<?> testClass, List<Method> methodsSequence) {
+        Object instance = newInstanceWithoutParameters(testClass);
         try {
-            Object instance = testClass.getDeclaredConstructors()[0].newInstance();
             for (Method method : methodsSequence) {
                 logMethod(method);
                 method.invoke(instance);
@@ -53,6 +55,20 @@ public class Runner {
             }
         }
         return result;
+    }
+
+    private Object newInstanceWithoutParameters(Class<?> testClass)
+    {
+        for (Constructor<?> constructor : testClass.getDeclaredConstructors()) {
+            if (constructor.getParameterCount() == 0) {
+                try {
+                    return constructor.newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException("[ERROR] Could not create instance of " + testClass.getName() + "\n\n" + e);
+                }
+            }
+        }
+        throw new RuntimeException("[ERROR] No constructor without parameters found for " + testClass.getName());
     }
 
     private ResultCode getResultBasedOnException(Exception exception) {
