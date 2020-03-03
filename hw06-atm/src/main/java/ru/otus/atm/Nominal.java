@@ -1,5 +1,7 @@
 package ru.otus.atm;
 
+import java.util.Comparator;
+
 public enum Nominal {
 
     FIFTY (50),
@@ -20,5 +22,4 @@ public enum Nominal {
     public String toString() {
         return String.valueOf(value);
     }
-
 }
