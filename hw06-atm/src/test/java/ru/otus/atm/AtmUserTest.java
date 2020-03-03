@@ -55,13 +55,17 @@ class AtmUserTest {
 
     @Test
     void getAmountFromAtm() {
-        try{
-            Map<Nominal, Integer> banknotesGiven = atm.getAmount(4900);
-            assertThat(banknotesGiven).isNull();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            assertThat(e.getMessage()).contains("Could not get");
-        }
+        Map<Nominal, Integer> banknotesGiven = atm.getAmount(3100);
+        Map<Nominal, Integer> expected = new TreeMap<>();
+        expected.put(Nominal.THOUSAND, 1);
+        expected.put(Nominal.FIVE_HUNDRED, 4);
+        expected.put(Nominal.HUNDRED, 1);
+        assertThat(banknotesGiven).isEqualTo(expected);
+        outputBanknotesMap(banknotesGiven);
+    }
+
+    private void outputBanknotesMap(Map<Nominal, Integer> banknotes) {
+        banknotes.forEach((n,v) -> System.out.println(n + " - "+ v));
     }
 
 }

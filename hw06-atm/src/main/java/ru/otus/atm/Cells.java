@@ -7,7 +7,7 @@ public class Cells implements ICells, ICellsService{
     Map<Nominal, Integer> cells;
 
     protected Cells (Map<Nominal, Integer> initialState) {
-        cells = Map.copyOf(initialState);
+        cells = new TreeMap<>(initialState);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Cells implements ICells, ICellsService{
                     quantityToTake = nominalAvailable;
                 }
                 if (quantityToTake > 0) {
-                    toTake.put(nominal, nominalAvailable);
+                    toTake.put(nominal, quantityToTake);
                     remainingSum -= nominal.value * quantityToTake;
                 }
             }
