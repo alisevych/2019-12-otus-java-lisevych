@@ -13,10 +13,10 @@ import static ru.otus.atm.Nominal.*;
 class AtmUserTest {
 
     private static IAtmUser atm;
+    private static Map<Nominal, Integer> initialState = new TreeMap<>();
 
     @BeforeAll
     private static void setUp() {
-        Map<Nominal, Integer> initialState = new TreeMap<>();
         // FIFTY is not defined in this cells
         initialState.put(HUNDRED, 1);
         initialState.put(TWO_HUNDRED, 2);
@@ -46,7 +46,7 @@ class AtmUserTest {
     void getInvalidAmountFromAtm() {
         try{
             Map<Nominal, Integer> banknotesGiven = atm.getAmount(4900);
-            assertThat(banknotesGiven).isNull();
+            assertThat(banknotesGiven).isNull(); // fail if exception is missing
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertThat(e.getMessage()).contains("Could not get");
@@ -62,6 +62,30 @@ class AtmUserTest {
         expected.put(Nominal.HUNDRED, 1);
         assertThat(banknotesGiven).isEqualTo(expected);
         outputBanknotesMap(banknotesGiven);
+    }
+
+    @Test
+    void inputBanknotesIntoAtm() {
+        Map<Nominal, Integer> banknotesPack = new TreeMap<>();
+        banknotesPack.put(Nominal.THOUSAND, 1);
+        banknotesPack.put(Nominal.FIVE_HUNDRED, 4);
+        banknotesPack.put(Nominal.HUNDRED, 1);
+        atm.inputBanknotes(banknotesPack);
+        ((IAtmService) atm).setState(initialState); //return initial state
+    }
+
+    @Test
+    void inputUnsupportedBanknotesIntoAtm() {
+        try {
+            Map<Nominal, Integer> banknotesPack = new TreeMap<>();
+            banknotesPack.put(Nominal.THOUSAND, 1);
+            banknotesPack.put(Nominal.FIVE_HUNDRED, 4);
+            banknotesPack.put(Nominal.FIFTY, 15);
+            atm.inputBanknotes(banknotesPack);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertThat(e.getMessage()).contains("50 is not supported");
+        }
     }
 
     private void outputBanknotesMap(Map<Nominal, Integer> banknotes) {

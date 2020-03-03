@@ -4,19 +4,26 @@ import java.util.*;
 
 public class Cells implements ICells, ICellsService{
 
-    Map<Nominal, Integer> cells;
+    private Map<Nominal, Integer> cells;
 
     protected Cells (Map<Nominal, Integer> initialState) {
         cells = new TreeMap<>(initialState);
     }
 
-    @Override
-    public void addBanknotes( Nominal nominal, int quantity) {
-        if (!isNominalPresent (nominal)) {
-            throw new RuntimeException("[ERROR] Can't add banknotes to not existing cell. Nominal " + nominal);
-        }
+    private void addToNominal(Nominal nominal, int quantity) {
         int quantityWas = cells.get(nominal);
         cells.put(nominal, quantityWas + quantity);
+    }
+
+    @Override
+    public void inputBanknotes(Map<Nominal, Integer> banknotes) {
+        List<Nominal> availableNominals = getAvailableNominals();
+        banknotes.forEach((nominal, qty) -> {
+            if (!availableNominals.contains(nominal)) {
+                throw new RuntimeException("[ERROR] Nominal " + nominal + " is not supported in this ATM.");
+            }
+        });
+        banknotes.forEach(this::addToNominal);
     }
 
     /**
@@ -90,11 +97,13 @@ public class Cells implements ICells, ICellsService{
 
     @Override
     public void setState (Map<Nominal, Integer> initialState) {
-        cells = Map.copyOf(initialState);
+        cells = new TreeMap<>(initialState);
     }
 
     @Override
     public Map<Nominal, Integer> getState () {
+        getAvailableNominals().forEach(nominal ->
+                System.out.println(nominal + " - " + cells.get(nominal)));
         return Map.copyOf(cells);
     }
 

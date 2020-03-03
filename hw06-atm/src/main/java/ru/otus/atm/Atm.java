@@ -48,24 +48,26 @@ public class Atm implements IAtmUser, IAtmService {
 
     @Override
     public void inputBanknotes(Map<Nominal, Integer> banknotes) {
-        //ToDo authorization check
-        throw new UnsupportedOperationException();
+        //ToDo user authorization check
+        cells.inputBanknotes(banknotes);
     }
 
     @Override
     public List<Nominal> getAvailableNominals() {
-        //ToDo authorization check
+        //ToDo user or service authorization check
         return cells.getAvailableNominals();
     }
 
     @Override
     public Map<Nominal, Integer> getState() {
-        throw new UnsupportedOperationException();
+        //ToDo service authorization check
+        return cells.getState();
     }
 
     @Override
-    public void setState(Map<Nominal, Integer> banknotes) {
-        throw new UnsupportedOperationException();
+    public void setState(Map<Nominal, Integer> cellsState) {
+        //ToDo service authorization check
+        cells.setState(cellsState);
     }
 
 }
