@@ -9,7 +9,7 @@ class AuthorizationModule implements IAuthorization{
     private Random random = new Random();
 
     @Override
-    public long authorizeToAtmAsUser() {
+    public long authorizeToAtmAsUser(long cardNumber, int pin) {
         return abs(random.nextLong());
     }
 

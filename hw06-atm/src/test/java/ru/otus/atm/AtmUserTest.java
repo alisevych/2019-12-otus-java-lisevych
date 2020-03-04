@@ -14,6 +14,9 @@ class AtmUserTest {
 
     private static IAtmUser atm;
     private static Map<Nominal, Integer> initialState = new TreeMap<>();
+    private static UserSession userSession;
+
+    private long serviceKey = 1235467890;
 
     @BeforeAll
     private static void setUp() {
@@ -25,28 +28,33 @@ class AtmUserTest {
         initialState.put(TWO_THOUSAND, 0);
         initialState.put(FIVE_THOUSAND, 10);
         atm = AtmFactory.getAtmForUser(initialState);
+        insertCardEnterPin();
     }
 
-    @Test
-    void userAuthorize() {
-        long key;
-        key = atm.userLogin();
-        System.out.println("Key = " + key);
-        assertThat(key).isGreaterThan(0);
+    private static void insertCardEnterPin(){
+        long card = 1234512345;
+        userSession = new UserSession(atm, card);
+        int pin = 1234;
+        assertThat(userSession.enterPinCode(pin)).isTrue();
+    }
+
+    private static void openServiceSessionAndGetAtmState(){
+        //ToDo ServiceSession
     }
 
     @Test
     void userGetAvailableNominals() {
-        List<Nominal> nominals = atm.getAvailableNominals();
+        List<Nominal> nominals = userSession.getAvailableNominals();
         nominals.forEach(System.out::println);
         assertThat(nominals.size()).isGreaterThan(0);
     }
 
     @Test
     void canNotGetAmountFromAtm() {
+        int amount = 4900;
         try{
-            Map<Nominal, Integer> banknotesGiven = atm.getAmount(4900);
-            assertThat(banknotesGiven).isNull(); // fail if exception is missing
+            System.out.println("User requested amount from Atm: " + amount);
+            Map<Nominal, Integer> banknotesGiven = userSession.getAmount(amount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertThat(e.getMessage()).contains("Could not get");
@@ -55,7 +63,9 @@ class AtmUserTest {
 
     @Test
     void getAvailableAmountFromAtm() {
-        Map<Nominal, Integer> banknotesGiven = atm.getAmount(3100);
+        int amount = 3100;
+        Map<Nominal, Integer> banknotesGiven = userSession.getAmount(amount);
+        System.out.println("User requested amount from Atm: " + amount);
         Map<Nominal, Integer> expected = new TreeMap<>();
         expected.put(Nominal.THOUSAND, 1);
         expected.put(Nominal.FIVE_HUNDRED, 4);
@@ -66,17 +76,17 @@ class AtmUserTest {
 
     @Test
     void inputBanknotesIntoAtm() {
-        Map<Nominal, Integer> initialState = ((IAtmService) atm).getState();
+        Map<Nominal, Integer> initialState = ((IAtmService) atm).getState(serviceKey);
         Map<Nominal, Integer> banknotesPack = new TreeMap<>();
         banknotesPack.put(Nominal.THOUSAND, 1);
         banknotesPack.put(Nominal.FIVE_HUNDRED, 154);
         banknotesPack.put(Nominal.HUNDRED, 0);
-        atm.inputBanknotes(banknotesPack);
+        userSession.inputBanknotes(banknotesPack);
         Map<Nominal, Integer> expectedState = summarizeTwoMaps(initialState, banknotesPack);
         System.out.println("--- after input banknotes ---");
-        Map<Nominal, Integer> resultState = ((IAtmService) atm).getState();
+        Map<Nominal, Integer> resultState = ((IAtmService) atm).getState(serviceKey);
         assertThat(resultState).isEqualTo(expectedState);
-        ((IAtmService) atm).setState(initialState); //return initial state
+        ((IAtmService) atm).setState(serviceKey, initialState); //return initial state
     }
 
     @Test
@@ -86,7 +96,7 @@ class AtmUserTest {
             banknotesPack.put(Nominal.THOUSAND, 1);
             banknotesPack.put(Nominal.FIVE_HUNDRED, 4);
             banknotesPack.put(Nominal.FIFTY, 15);
-            atm.inputBanknotes(banknotesPack);
+            userSession.inputBanknotes(banknotesPack);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertThat(e.getMessage()).contains("50 is not supported");

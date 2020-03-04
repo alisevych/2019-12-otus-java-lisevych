@@ -18,14 +18,14 @@ public class Atm implements IAtmUser, IAtmService {
     }
 
     @Override
-    public long userLogin(){
-        userSessionKey = authorization.authorizeToAtmAsUser();
+    public long userLogin(long cardNumber, int pin){
+        userSessionKey = authorization.authorizeToAtmAsUser(cardNumber, pin);
         return userSessionKey;
     }
 
     @Override
     @AuthorizedAs("user")
-    public void userLogout(long key) {
+    public void userLogout() {
         userSessionKey = -1;
     }
 
@@ -50,8 +50,8 @@ public class Atm implements IAtmUser, IAtmService {
 
     @Override
     @AuthorizedAs("user")
-    public void inputBanknotes(long key, Map<Nominal, Integer> banknotes) {
-        cells.inputBanknotes(banknotes);
+    public boolean inputBanknotes(long key, Map<Nominal, Integer> banknotes) {
+        return cells.inputBanknotes(banknotes);
     }
 
     @Override

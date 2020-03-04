@@ -5,7 +5,7 @@ import java.util.Map;
 
 interface ICells {
 
-    void inputBanknotes(Map<Nominal, Integer> banknotes);
+    boolean inputBanknotes(Map<Nominal, Integer> banknotes);
 
     Map<Nominal, Integer> takeAmountOut(int sum);
 

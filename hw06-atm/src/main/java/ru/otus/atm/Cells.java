@@ -16,14 +16,13 @@ public class Cells implements ICells, ICellsService{
     }
 
     @Override
-    public void inputBanknotes(Map<Nominal, Integer> banknotes) {
-        List<Nominal> availableNominals = getAvailableNominals();
-        banknotes.forEach((nominal, qty) -> {
-            if (!availableNominals.contains(nominal)) {
-                throw new RuntimeException("[ERROR] Nominal " + nominal + " is not supported in this ATM.");
-            }
-        });
+    public boolean inputBanknotes(Map<Nominal, Integer> banknotes) {
+        if (!cells.keySet().containsAll(banknotes.keySet())){
+            System.out.println("[ERROR] There are unsupported nominals in banknotes. \nPlease take your money back.");
+            return false;
+        }
         banknotes.forEach(this::addToNominal);
+        return true;
     }
 
     /**

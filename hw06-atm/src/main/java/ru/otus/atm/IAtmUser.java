@@ -5,14 +5,14 @@ import java.util.Map;
 
 public interface IAtmUser {
 
-    long userLogin();
+    long userLogin(long cardNumber, int pin);
 
     Map<Nominal, Integer> getAmount(long key, int sum);
 
-    void inputBanknotes(long key, Map<Nominal, Integer> banknotes);
+    boolean inputBanknotes(long key, Map<Nominal, Integer> banknotes);
 
     List<Nominal> getAvailableNominals(long key);
 
-    void userLogout(long key);
+    void userLogout();
 
 }
