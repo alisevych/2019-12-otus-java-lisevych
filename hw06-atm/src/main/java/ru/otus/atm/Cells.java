@@ -27,14 +27,13 @@ public class Cells implements ICells, ICellsService{
     }
 
     /**
-     * getAmount outputs the maximum qty of largest nominals
+     * takeAmountOut takes maximum from largest nominals first
      */
     @Override
-    public Map<Nominal, Integer> getAmount(int amount) {
+    public Map<Nominal, Integer> takeAmountOut(int amount) {
         Map<Nominal, Integer> toTake = new TreeMap<>();
         int remainingSum = amount;
         for (Nominal nominal : getAvailableNominals()) {
-            //ToDo verify logic
             int quantityNeeded = remainingSum / nominal.value;
             int quantityToTake = 0;
             if (quantityNeeded > 0) {
@@ -63,21 +62,17 @@ public class Cells implements ICells, ICellsService{
 
     private void withdrawAmount(Map<Nominal, Integer> toTake) {
         for (Nominal nominal : toTake.keySet()) {
-            takeBanknotes(nominal, toTake.get(nominal) );
+            takeBanknotesOut(nominal, toTake.get(nominal) );
         }
     }
 
-    private void takeBanknotes( Nominal nominal, int quantityToTake) {
+    private void takeBanknotesOut(Nominal nominal, int quantityToTake) {
         int quantityAvailable = getNominalQty(nominal);
         if (quantityAvailable < quantityToTake) {
             throw new RuntimeException("[ERROR] For nominal: " + nominal + " requested qty is: " + quantityToTake +
                     "; available qty is: " + quantityAvailable);
         }
         cells.put(nominal, quantityAvailable - quantityToTake);
-    }
-
-    private boolean isNominalPresent(Nominal nominal) {
-        return cells.containsKey(nominal);
     }
 
     private int getNominalQty(Nominal nominal) {
@@ -89,10 +84,11 @@ public class Cells implements ICells, ICellsService{
         return quantity;
     }
 
-    protected List<Nominal> getAvailableNominals() {
-        List<Nominal> nominalsList = new ArrayList<>(cells.keySet());
-        Collections.sort(nominalsList, (o1,o2) -> Integer.compare(o2.value, o1.value));
-        return nominalsList;
+    @Override
+    public List<Nominal> getAvailableNominals() {
+        List<Nominal> nominalList = new ArrayList<>(cells.keySet());
+        Collections.sort(nominalList, (o1,o2) -> Integer.compare(o2.value, o1.value)); //reverse order
+        return nominalList;
     }
 
     @Override
@@ -102,9 +98,13 @@ public class Cells implements ICells, ICellsService{
 
     @Override
     public Map<Nominal, Integer> getState () {
+        printState();
+        return Map.copyOf(cells); //immutable
+    }
+
+    private void printState() {
         getAvailableNominals().forEach(nominal ->
                 System.out.println(nominal + " - " + cells.get(nominal)));
-        return Map.copyOf(cells);
     }
 
 }

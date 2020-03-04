@@ -4,15 +4,17 @@ import java.util.Random;
 
 import static java.lang.Math.abs;
 
-class AuthorizationModule {
+class AuthorizationModule implements IAuthorization{
 
-    Random random = new Random();
+    private Random random = new Random();
 
-    long authorizeAsUser() {
+    @Override
+    public long authorizeToAtmAsUser() {
         return abs(random.nextLong());
     }
 
-    long authorizeAsService() {
+    @Override
+    public long authorizeToAtmAsService() {
         return abs(random.nextLong());
     }
 

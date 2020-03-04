@@ -1,23 +1,25 @@
 package ru.otus.atm;
 
+import ru.otus.atm.annotations.AuthorizedAs;
+
 import java.util.List;
 import java.util.Map;
 
 public class Atm implements IAtmUser, IAtmService {
 
-    private Cells cells;
-    private AuthorizationModule authorization;
+    private ICells cells;
+    private IAuthorization authorization;
     private long userSessionKey=-1;
     private long serviceSessionKey=-1;
 
-    Atm(Cells cells, AuthorizationModule authorization) {
+    Atm(ICells cells, IAuthorization authorization) {
         this.cells = cells;
         this.authorization = authorization;
     }
 
     @Override
     public long userLogin(){
-        userSessionKey = authorization.authorizeAsUser();
+        userSessionKey = authorization.authorizeToAtmAsUser();
         return userSessionKey;
     }
 
@@ -31,7 +33,7 @@ public class Atm implements IAtmUser, IAtmService {
         if (userSessionKey != -1) {
             userLogout();
         }
-        serviceSessionKey = authorization.authorizeAsService();
+        serviceSessionKey = authorization.authorizeToAtmAsService();
         return serviceSessionKey;
     }
 
@@ -41,32 +43,32 @@ public class Atm implements IAtmUser, IAtmService {
     }
 
     @Override
+    @AuthorizedAs("user")
     public Map<Nominal, Integer> getAmount(int sum) {
-        //ToDo authorization check
-        return cells.getAmount(sum);
+        return cells.takeAmountOut(sum);
     }
 
     @Override
+    @AuthorizedAs("user")
     public void inputBanknotes(Map<Nominal, Integer> banknotes) {
-        //ToDo user authorization check
         cells.inputBanknotes(banknotes);
     }
 
     @Override
+    @AuthorizedAs("user")
     public List<Nominal> getAvailableNominals() {
-        //ToDo user or service authorization check
         return cells.getAvailableNominals();
     }
 
     @Override
+    @AuthorizedAs("service")
     public Map<Nominal, Integer> getState() {
-        //ToDo service authorization check
         return cells.getState();
     }
 
     @Override
+    @AuthorizedAs("service")
     public void setState(Map<Nominal, Integer> cellsState) {
-        //ToDo service authorization check
         cells.setState(cellsState);
     }
 
