@@ -2,7 +2,7 @@ package ru.otus.atm;
 
 import java.util.*;
 
-public class Cells implements ICells, ICellsService{
+public class Cells implements ICells{
 
     private Map<Nominal, Integer> cells;
 
@@ -91,8 +91,9 @@ public class Cells implements ICells, ICellsService{
     }
 
     @Override
-    public void setState (Map<Nominal, Integer> initialState) {
-        cells = new TreeMap<>(initialState);
+    public boolean setState (Map<Nominal, Integer> cellsState) {
+        cells = new TreeMap<>(cellsState);
+        return true;
     }
 
     @Override

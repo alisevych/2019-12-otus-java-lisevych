@@ -8,7 +8,7 @@ public interface IAtmService {
 
     Map<Nominal, Integer> getState(long key);
 
-    void setState(long key, Map<Nominal, Integer> banknotes);
+    boolean setState(long key, Map<Nominal, Integer> cellsState);
 
     void serviceLogout(long key);
 

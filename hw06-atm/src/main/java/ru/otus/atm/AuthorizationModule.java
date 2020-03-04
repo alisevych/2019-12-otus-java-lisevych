@@ -7,6 +7,7 @@ import static java.lang.Math.abs;
 class AuthorizationModule implements IAuthorization{
 
     private Random random = new Random();
+    private static final long specialServiceKey = 1234567890;
 
     @Override
     public long authorizeToAtmAsUser(long cardNumber, int pin) {
@@ -15,7 +16,10 @@ class AuthorizationModule implements IAuthorization{
 
     @Override
     public long authorizeToAtmAsService(long secretKey) {
-        return abs(random.nextLong());
+        if (secretKey == specialServiceKey) {
+            return abs(random.nextLong());
+        }
+        return -1;
     }
 
 }

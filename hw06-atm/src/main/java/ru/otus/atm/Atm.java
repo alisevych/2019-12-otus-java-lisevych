@@ -68,8 +68,8 @@ public class Atm implements IAtmUser, IAtmService {
 
     @Override
     @AuthorizedAs("service")
-    public void setState(long key, Map<Nominal, Integer> cellsState) {
-        cells.setState(cellsState);
+    public boolean setState(long key, Map<Nominal, Integer> cellsState) {
+        return cells.setState(cellsState);
     }
 
 }

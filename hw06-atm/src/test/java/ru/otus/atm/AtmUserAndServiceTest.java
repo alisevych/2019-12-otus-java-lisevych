@@ -10,13 +10,14 @@ import java.util.TreeMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.atm.Nominal.*;
 
-class AtmUserTest {
+class AtmUserAndServiceTest {
 
     private static IAtmUser atm;
     private static Map<Nominal, Integer> initialState = new TreeMap<>();
     private static UserSession userSession;
 
-    private long serviceKey = 1235467890;
+    private static final long serviceKey = 1234567890;
+    private static ServiceSession serviceSession;
 
     @BeforeAll
     private static void setUp() {
@@ -38,8 +39,11 @@ class AtmUserTest {
         assertThat(userSession.enterPinCode(pin)).isTrue();
     }
 
-    private static void openServiceSessionAndGetAtmState(){
-        //ToDo ServiceSession
+    private static Map<Nominal, Integer> getAtmStateAsServiceAndLogout(){
+        serviceSession = new ServiceSession((IAtmService) atm, serviceKey);
+        Map<Nominal, Integer> state = serviceSession.getState();
+        serviceSession.closeSession();
+        return state;
     }
 
     @Test
@@ -76,7 +80,7 @@ class AtmUserTest {
 
     @Test
     void inputBanknotesIntoAtm() {
-        Map<Nominal, Integer> initialState = ((IAtmService) atm).getState(serviceKey);
+        Map<Nominal, Integer> initialState = getAtmStateAsServiceAndLogout();
         Map<Nominal, Integer> banknotesPack = new TreeMap<>();
         banknotesPack.put(Nominal.THOUSAND, 1);
         banknotesPack.put(Nominal.FIVE_HUNDRED, 154);

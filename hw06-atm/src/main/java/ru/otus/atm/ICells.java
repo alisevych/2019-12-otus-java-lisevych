@@ -11,7 +11,7 @@ interface ICells {
 
     List<Nominal> getAvailableNominals();
 
-    void setState (Map<Nominal, Integer> initialState);
+    boolean setState (Map<Nominal, Integer> cellsState);
 
     Map<Nominal, Integer> getState ();
 
