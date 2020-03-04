@@ -14,7 +14,7 @@ class AuthorizationModule implements IAuthorization{
     }
 
     @Override
-    public long authorizeToAtmAsService() {
+    public long authorizeToAtmAsService(long secretKey) {
         return abs(random.nextLong());
     }
 

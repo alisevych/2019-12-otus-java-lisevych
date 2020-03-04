@@ -7,12 +7,12 @@ public interface IAtmUser {
 
     long userLogin();
 
-    Map<Nominal, Integer> getAmount(int sum);
+    Map<Nominal, Integer> getAmount(long key, int sum);
 
-    void inputBanknotes(Map<Nominal, Integer> banknotes);
+    void inputBanknotes(long key, Map<Nominal, Integer> banknotes);
 
-    List<Nominal> getAvailableNominals();
+    List<Nominal> getAvailableNominals(long key);
 
-    void userLogout();
+    void userLogout(long key);
 
 }

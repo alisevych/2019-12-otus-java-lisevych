@@ -4,6 +4,6 @@ public interface IAuthorization {
 
     long authorizeToAtmAsUser();
 
-    long authorizeToAtmAsService();
+    long authorizeToAtmAsService(long secretKey);
 
 }
