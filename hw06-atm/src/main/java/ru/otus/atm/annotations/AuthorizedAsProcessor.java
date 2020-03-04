@@ -23,8 +23,10 @@ public class AuthorizedAsProcessor extends AbstractProcessor {
     System.out.printf("Total elements annotated with %s: %d\n", AuthorizedAs.class.getCanonicalName(),
         elements.size());
 
-    for (var element : elements)
+    for (var element : elements) {
       System.out.println(element.getSimpleName());
+
+    }
 
     return false;
   }

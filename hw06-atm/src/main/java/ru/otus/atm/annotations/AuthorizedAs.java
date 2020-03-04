@@ -10,6 +10,18 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @Retention(SOURCE)
 public @interface AuthorizedAs {
 
-    String value();
+    AsType value();
+
+    enum AsType {
+        USER ("user"),
+        SERVICE ("service");
+
+        public String value;
+
+        AsType(String value) {
+            this.value = value;
+        }
+
+    }
 
 }

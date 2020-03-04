@@ -39,9 +39,12 @@ class AtmUserAndServiceTest {
         assertThat(userSession.enterPinCode(pin)).isTrue();
     }
 
-    private static Map<Nominal, Integer> getAtmStateAsServiceAndLogout(){
+    private static Map<Nominal, Integer> getAtmStateAsServiceAndRestoreInitialState(Map<Nominal, Integer> initialState){
         serviceSession = new ServiceSession((IAtmService) atm, serviceKey);
         Map<Nominal, Integer> state = serviceSession.getState();
+        if (initialState != null) {
+            serviceSession.setState(initialState);
+        }
         serviceSession.closeSession();
         return state;
     }
@@ -59,6 +62,7 @@ class AtmUserAndServiceTest {
         try{
             System.out.println("User requested amount from Atm: " + amount);
             Map<Nominal, Integer> banknotesGiven = userSession.getAmount(amount);
+            assert false; // if exception is missed
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertThat(e.getMessage()).contains("Could not get");
@@ -75,12 +79,12 @@ class AtmUserAndServiceTest {
         expected.put(Nominal.FIVE_HUNDRED, 4);
         expected.put(Nominal.HUNDRED, 1);
         assertThat(banknotesGiven).isEqualTo(expected);
-        outputBanknotesMap(banknotesGiven);
     }
 
     @Test
     void inputBanknotesIntoAtm() {
-        Map<Nominal, Integer> initialState = getAtmStateAsServiceAndLogout();
+        Map<Nominal, Integer> initialState = getAtmStateAsServiceAndRestoreInitialState(null);
+        insertCardEnterPin();
         Map<Nominal, Integer> banknotesPack = new TreeMap<>();
         banknotesPack.put(Nominal.THOUSAND, 1);
         banknotesPack.put(Nominal.FIVE_HUNDRED, 154);
@@ -88,9 +92,9 @@ class AtmUserAndServiceTest {
         userSession.inputBanknotes(banknotesPack);
         Map<Nominal, Integer> expectedState = summarizeTwoMaps(initialState, banknotesPack);
         System.out.println("--- after input banknotes ---");
-        Map<Nominal, Integer> resultState = ((IAtmService) atm).getState(serviceKey);
+        Map<Nominal, Integer> resultState = getAtmStateAsServiceAndRestoreInitialState(initialState);
         assertThat(resultState).isEqualTo(expectedState);
-        ((IAtmService) atm).setState(serviceKey, initialState); //return initial state
+        insertCardEnterPin();
     }
 
     @Test
@@ -107,8 +111,15 @@ class AtmUserAndServiceTest {
         }
     }
 
-    private void outputBanknotesMap(Map<Nominal, Integer> banknotes) {
-        banknotes.forEach((n,v) -> System.out.println(n + " - "+ v));
+    @Test
+    void checkAuthorizationErrorAfterEndUserSession() {
+        userSession.returnCard();
+        try {
+            userSession.getAvailableNominals();
+            assert false; //if exception is not thrown
+        } catch (Exception e) {
+            assertThat(e.getMessage().contains("ERROR"));
+        }
     }
 
     private Map<Nominal, Integer> summarizeTwoMaps(Map<Nominal, Integer> initialMap, Map<Nominal, Integer> addedBanknotes) {

@@ -28,11 +28,16 @@ public class UserSession {
 
     public Map<Nominal, Integer> getAmount(int sum){
         checkLoggedIn();
-        return atm.getAmount(sessionKey, sum);
+        System.out.println("Amount "+ sum + " is requested.");
+        Map<Nominal, Integer> banknotesOut = atm.getAmount(sessionKey, sum);
+        printBanknotesMap(banknotesOut);
+        return banknotesOut;
     }
 
     public boolean inputBanknotes(Map<Nominal, Integer> banknotes) {
         checkLoggedIn();
+        System.out.println("Input banknotes: ");
+        printBanknotesMap(banknotes);
         return atm.inputBanknotes(sessionKey, banknotes);
     }
 
@@ -50,6 +55,10 @@ public class UserSession {
         if (sessionKey == -1 ) {
             throw new RuntimeException("[ERROR] You are not yet logged in.");
         }
+    }
+
+    private void printBanknotesMap(Map<Nominal, Integer> banknotes) {
+        banknotes.forEach((n,v) -> System.out.println(n + " - "+ v));
     }
 
 }

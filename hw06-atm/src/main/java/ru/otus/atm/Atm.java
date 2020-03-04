@@ -5,6 +5,8 @@ import ru.otus.atm.annotations.AuthorizedAs;
 import java.util.List;
 import java.util.Map;
 
+import static ru.otus.atm.annotations.AuthorizedAs.AsType.*;
+
 public class Atm implements IAtmUser, IAtmService {
 
     private ICells cells;
@@ -24,7 +26,7 @@ public class Atm implements IAtmUser, IAtmService {
     }
 
     @Override
-    @AuthorizedAs("user")
+    @AuthorizedAs(USER)
     public void userLogout() {
         userSessionKey = -1;
     }
@@ -36,38 +38,38 @@ public class Atm implements IAtmUser, IAtmService {
         return serviceSessionKey;
     }
 
-    @AuthorizedAs("service")
     @Override
+    @AuthorizedAs(SERVICE)
     public void serviceLogout(long key) {
         serviceSessionKey = -1;
     }
 
     @Override
-    @AuthorizedAs("user")
+    @AuthorizedAs(USER)
     public Map<Nominal, Integer> getAmount(long key, int sum) {
         return cells.takeAmountOut(sum);
     }
 
     @Override
-    @AuthorizedAs("user")
+    @AuthorizedAs(USER)
     public boolean inputBanknotes(long key, Map<Nominal, Integer> banknotes) {
         return cells.inputBanknotes(banknotes);
     }
 
     @Override
-    @AuthorizedAs("user")
+    @AuthorizedAs(USER)
     public List<Nominal> getAvailableNominals(long key) {
         return cells.getAvailableNominals();
     }
 
     @Override
-    @AuthorizedAs("service")
+    @AuthorizedAs(SERVICE)
     public Map<Nominal, Integer> getState(long key) {
         return cells.getState();
     }
 
     @Override
-    @AuthorizedAs("service")
+    @AuthorizedAs(SERVICE)
     public boolean setState(long key, Map<Nominal, Integer> cellsState) {
         return cells.setState(cellsState);
     }

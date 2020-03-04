@@ -103,6 +103,7 @@ public class Cells implements ICells{
     }
 
     private void printState() {
+        System.out.println("Cells current state:");
         getAvailableNominals().forEach(nominal ->
                 System.out.println(nominal + " - " + cells.get(nominal)));
     }

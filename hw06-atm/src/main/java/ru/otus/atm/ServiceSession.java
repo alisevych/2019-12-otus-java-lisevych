@@ -1,6 +1,5 @@
 package ru.otus.atm;
 
-import java.util.List;
 import java.util.Map;
 
 public class ServiceSession {
