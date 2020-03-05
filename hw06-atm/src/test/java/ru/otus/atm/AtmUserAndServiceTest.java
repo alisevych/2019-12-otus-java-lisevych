@@ -113,6 +113,7 @@ class AtmUserAndServiceTest {
 
     @Test
     void checkAuthorizationErrorAfterEndUserSession() {
+        //ToDo not yet implemented authorization check
         userSession.returnCard();
         try {
             userSession.getAvailableNominals();
