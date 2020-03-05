@@ -20,7 +20,7 @@ class AtmUserAndServiceTest {
     private static ServiceSession serviceSession;
 
     @BeforeAll
-    private static void setUp() {
+    protected static void setUp() {
         // FIFTY is not defined in this cells
         initialState.put(HUNDRED, 1);
         initialState.put(TWO_HUNDRED, 2);
@@ -94,7 +94,7 @@ class AtmUserAndServiceTest {
         System.out.println("--- after input banknotes ---");
         Map<Nominal, Integer> resultState = getAtmStateAsServiceAndRestoreInitialState(initialState);
         assertThat(resultState).isEqualTo(expectedState);
-        insertCardEnterPin();
+        insertCardEnterPin(); // log back
     }
 
     @Test
@@ -120,6 +120,7 @@ class AtmUserAndServiceTest {
         } catch (Exception e) {
             assertThat(e.getMessage().contains("ERROR"));
         }
+        insertCardEnterPin(); // log back
     }
 
     private Map<Nominal, Integer> summarizeTwoMaps(Map<Nominal, Integer> initialMap, Map<Nominal, Integer> addedBanknotes) {
