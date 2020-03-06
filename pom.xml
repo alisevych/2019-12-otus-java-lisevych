@@ -28,6 +28,7 @@
         <module>hw03-gc</module>
         <module>hw04-aop</module>
         <module>hw05-test</module>
+        <module>hw06-atm</module>
     </modules>
 
     <properties>
@@ -51,7 +52,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven.assembly.version}</version>
             </dependency>
-
 
             <!-- JUnit5 (jupiter) -->
             <dependency>
