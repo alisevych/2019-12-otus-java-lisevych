@@ -12,7 +12,7 @@ import static ru.otus.atm.Nominal.*;
 
 class AtmUserAndServiceTest {
 
-    private static IAtmUser atm;
+    private static AtmUser atm;
     private static Map<Nominal, Integer> initialState = new TreeMap<>();
     private static UserSession userSession;
 
@@ -28,7 +28,7 @@ class AtmUserAndServiceTest {
         initialState.put(THOUSAND, 1);
         initialState.put(TWO_THOUSAND, 0);
         initialState.put(FIVE_THOUSAND, 10);
-        atm = AtmFactory.getAtmForUser(initialState);
+        atm = AtmGenerator.getAtmForUser(initialState);
         insertCardEnterPin();
     }
 
@@ -40,7 +40,7 @@ class AtmUserAndServiceTest {
     }
 
     private static Map<Nominal, Integer> getAtmStateAsServiceAndRestoreInitialState(Map<Nominal, Integer> initialState){
-        serviceSession = new ServiceSession((IAtmService) atm, serviceKey);
+        serviceSession = new ServiceSession((AtmService) atm, serviceKey);
         Map<Nominal, Integer> state = serviceSession.getState();
         if (initialState != null) {
             serviceSession.setState(initialState);

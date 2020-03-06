@@ -3,7 +3,7 @@ package ru.otus.atm;
 import java.util.List;
 import java.util.Map;
 
-public interface IAtmUser {
+public interface AtmUser {
 
     long userLogin(long cardNumber, int pin);
 

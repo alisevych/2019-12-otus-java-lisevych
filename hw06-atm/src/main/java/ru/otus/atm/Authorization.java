@@ -1,6 +1,6 @@
 package ru.otus.atm;
 
-public interface IAuthorization {
+public interface Authorization {
 
     long authorizeToAtmAsUser(long cardNumber, int pin);
 

@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class UserSession {
 
-    private final IAtmUser atm;
+    private final AtmUser atm;
     private final long cardNumber;
     private long sessionKey = -1;
 
-    protected UserSession (IAtmUser atm, long cardNumber) {
+    protected UserSession (AtmUser atm, long cardNumber) {
         this.atm = atm;
         this.cardNumber = cardNumber;
         System.out.println("User session is created");

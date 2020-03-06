@@ -4,7 +4,7 @@ import java.util.Random;
 
 import static java.lang.Math.abs;
 
-class AuthorizationModule implements IAuthorization{
+class AuthorizationModule implements Authorization {
 
     private Random random = new Random();
     private static final long specialServiceKey = 1234567890;

@@ -7,14 +7,14 @@ import java.util.Map;
 
 import static ru.otus.atm.annotations.AuthorizedAs.AsType.*;
 
-public class Atm implements IAtmUser, IAtmService {
+public class AtmImpl implements AtmUser, AtmService {
 
-    private ICells cells;
-    private IAuthorization authorization;
+    private Cells cells;
+    private Authorization authorization;
     private long userSessionKey=-1;
     private long serviceSessionKey=-1;
 
-    Atm(ICells cells, IAuthorization authorization) {
+    AtmImpl(Cells cells, Authorization authorization) {
         this.cells = cells;
         this.authorization = authorization;
     }
