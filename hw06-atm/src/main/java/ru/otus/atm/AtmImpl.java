@@ -9,8 +9,8 @@ import static ru.otus.atm.annotations.AuthorizedAs.AsType.*;
 
 public class AtmImpl implements AtmUser, AtmService {
 
-    private Cells cells;
-    private Authorization authorization;
+    private final Cells cells;
+    private final Authorization authorization;
     private long userSessionKey=-1;
     private long serviceSessionKey=-1;
 

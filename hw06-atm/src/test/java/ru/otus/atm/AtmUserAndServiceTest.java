@@ -13,11 +13,10 @@ import static ru.otus.atm.Nominal.*;
 class AtmUserAndServiceTest {
 
     private static AtmUser atm;
-    private static Map<Nominal, Integer> initialState = new TreeMap<>();
+    private static final Map<Nominal, Integer> initialState = new TreeMap<>();
     private static UserSession userSession;
 
     private static final long serviceKey = 1234567890;
-    private static ServiceSession serviceSession;
 
     @BeforeAll
     protected static void setUp() {
@@ -40,7 +39,7 @@ class AtmUserAndServiceTest {
     }
 
     private static Map<Nominal, Integer> getAtmStateAsServiceAndRestoreInitialState(Map<Nominal, Integer> initialState){
-        serviceSession = new ServiceSession((AtmService) atm, serviceKey);
+        ServiceSession serviceSession = new ServiceSession((AtmService) atm, serviceKey);
         Map<Nominal, Integer> state = serviceSession.getState();
         if (initialState != null) {
             serviceSession.setState(initialState);
