@@ -4,10 +4,10 @@ import java.util.Map;
 
 public class ServiceSession {
 
-    private final IAtmService atm;
+    private final AtmService atm;
     private long sessionKey = -1;
 
-    protected ServiceSession(IAtmService atm, long serviceKey) {
+    protected ServiceSession(AtmService atm, long serviceKey) {
         this.atm = atm;
         this.sessionKey = atm.serviceLogin(serviceKey);
         if (this.sessionKey == -1) {

@@ -2,7 +2,7 @@ package ru.otus.atm;
 
 import java.util.Map;
 
-public interface IAtmService {
+public interface AtmService {
 
     long serviceLogin(long serviceKey);
 
