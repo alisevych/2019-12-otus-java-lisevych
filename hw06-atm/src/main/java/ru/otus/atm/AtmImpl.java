@@ -33,7 +33,6 @@ public class AtmImpl implements AtmUser, AtmService {
 
     @Override
     public long serviceLogin(long serviceKey) {
-        userSessionKey = -1; // terminate user session if any
         serviceSessionKey = authorization.authorizeToAtmAsService(serviceKey);
         return serviceSessionKey;
     }
