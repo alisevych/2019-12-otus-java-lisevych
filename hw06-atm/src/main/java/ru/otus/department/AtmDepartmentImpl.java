@@ -15,7 +15,7 @@ public class AtmDepartmentImpl implements AtmDepartment {
 
     @Override
     public Set<String> getAtmIds() {
-        return new HashSet<>(atms.keySet());
+        return new TreeSet<>(atms.keySet());
     }
 
     @Override

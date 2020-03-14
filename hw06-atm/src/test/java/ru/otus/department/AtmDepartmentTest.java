@@ -1,13 +1,13 @@
 package ru.otus.department;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import ru.otus.atm.AtmFactory;
 import ru.otus.atm.AtmService;
 import ru.otus.atm.Nominal;
+import ru.otus.atm.ServiceSession;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -30,17 +30,17 @@ class AtmDepartmentTest {
         initialState1.put(THOUSAND, 1);
         initialState1.put(TWO_THOUSAND, 0);
         initialState1.put(FIVE_THOUSAND, 10);
-        AtmService atm1 = AtmFactory.getAtm(initialState1, null);
+        AtmService atm1 = AtmFactory.generateAtm(initialState1, null);
         lisDepartment.addAtm(atm1);
 
         Map<Nominal, Integer> initialState2 = new TreeMap<>(initialState1);
         initialState2.put(HUNDRED, 15);
-        AtmService atm2 = AtmFactory.getAtm(initialState2, null);
+        AtmService atm2 = AtmFactory.generateAtm(initialState2, null);
         lisDepartment.addAtm(atm2);
 
         Map<Nominal, Integer> initialState3 = new TreeMap<>(initialState1);
         initialState2.put(HUNDRED, 0);
-        AtmService atm3 = AtmFactory.getAtm(initialState3, null);
+        AtmService atm3 = AtmFactory.generateAtm(initialState3, null);
         lisDepartment.addAtm(atm3);
     }
 
@@ -57,7 +57,7 @@ class AtmDepartmentTest {
     }
 
     @Test
-    void addAtm() {
+    void atmIsAddedToDepartment() {
         String atmSpecialName = "atmSpecial";
         Map<Nominal, Integer> initialState1 = new TreeMap<>();
         initialState1.put(FIFTY, 100);
@@ -66,11 +66,23 @@ class AtmDepartmentTest {
         initialState1.put(THOUSAND, 1000);
         initialState1.put(TWO_THOUSAND, 10000);
         initialState1.put(FIVE_THOUSAND, 100000);
-        AtmService atm1 = AtmFactory.getAtm(initialState1, atmSpecialName);
+        AtmService atm1 = AtmFactory.generateAtm(initialState1, atmSpecialName);
         lisDepartment.addAtm(atm1);
         Set<String> atmIDs = lisDepartment.getAtmIds();
         System.out.println("Department " + lisDepartment.getName());
         System.out.println("ATM IDs: " + atmIDs);
         assertThat(atmIDs.contains(atmSpecialName));
     }
+
+    @Test
+    void atmFactorySavesGeneratedAmtIDs() {
+        List<String> atmIDs = AtmFactory.getGeneratedIDs();
+        System.out.println("Atm Factory. Generated IDs:" + atmIDs);
+        assertThat(atmIDs.contains("atm1"));
+        assertThat(atmIDs.contains("atm2"));
+        assertThat(atmIDs.contains("atm3"));
+        assertThat(!atmIDs.contains("atm4"));
+        assertThat(!atmIDs.contains("atm0"));
+    }
+
 }

@@ -26,7 +26,7 @@ class AtmUserAndServiceTest {
         initialState.put(THOUSAND, 1);
         initialState.put(TWO_THOUSAND, 0);
         initialState.put(FIVE_THOUSAND, 10);
-        atm = AtmFactory.getAtm(initialState, null);
+        atm = AtmFactory.generateAtm(initialState, null);
         insertCardEnterPin();
         openServiceSession();
     }
