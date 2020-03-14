@@ -5,6 +5,8 @@ import java.util.Map;
 
 public interface AtmUser {
 
+    String getAtmID();
+
     long userLogin(long cardNumber, int pin);
 
     Map<Nominal, Integer> getAmount(long key, int sum);

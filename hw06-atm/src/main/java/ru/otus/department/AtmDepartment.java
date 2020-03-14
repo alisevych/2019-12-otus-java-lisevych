@@ -1,4 +1,20 @@
 package ru.otus.department;
 
-public class AtmDepartment {
+import ru.otus.atm.AtmService;
+
+import java.util.Set;
+
+
+public interface AtmDepartment {
+
+    Set<String> getAtmIds();
+
+    boolean addAtm(AtmService newAtm);
+
+    boolean getStateFromAllAtms();
+
+    boolean restartAllAtms();
+
+    String getName();
+
 }

@@ -4,6 +4,8 @@ import java.util.Map;
 
 public interface AtmService {
 
+    String getAtmID();
+
     long serviceLogin(long serviceKey);
 
     Map<Nominal, Integer> getState(long key);

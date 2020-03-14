@@ -11,12 +11,14 @@ public class AtmImpl implements AtmUser, AtmService {
 
     private final Cells cells;
     private final Authorization authorization;
+    private final String atmID;
     private long userSessionKey=-1;
     private long serviceSessionKey=-1;
 
-    AtmImpl(Cells cells, Authorization authorization) {
+    AtmImpl(Cells cells, Authorization authorization, String atmNumber) {
         this.cells = cells;
         this.authorization = authorization;
+        this.atmID = atmNumber;
     }
 
     @Override
@@ -41,6 +43,11 @@ public class AtmImpl implements AtmUser, AtmService {
     @AuthorizedAs(SERVICE)
     public void serviceLogout(long key) {
         serviceSessionKey = -1;
+    }
+
+    @Override
+    public String getAtmID(){
+        return atmID;
     }
 
     @Override
