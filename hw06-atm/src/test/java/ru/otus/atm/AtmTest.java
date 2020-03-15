@@ -29,7 +29,7 @@ class AtmTest {
         initialCellsMap.put(THOUSAND, 1);
         initialCellsMap.put(TWO_THOUSAND, 0);
         initialCellsMap.put(FIVE_THOUSAND, 10);
-        atm = AtmFactory.generateAtm(new StateImpl(initialCellsMap), null);
+        atm = AtmBuilder.generateAtm(new StateImpl(initialCellsMap), null);
         insertCardEnterPin();
         openServiceSession();
     }

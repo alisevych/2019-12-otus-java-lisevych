@@ -33,17 +33,17 @@ class AtmDepartmentTest {
         initialMap1.put(TWO_THOUSAND, 0);
         initialMap1.put(FIVE_THOUSAND, 10);
         State initialState1 = new StateImpl(initialMap1);
-        atm1 = AtmFactory.generateAtm(initialState1, null);
+        atm1 = AtmBuilder.generateAtm(initialState1, null);
         lisDepartment.addAtm(atm1);
 
         initialMap1.put(HUNDRED, 15);
         State initialState2 = new StateImpl(initialMap1);
-        AtmService atm2 = AtmFactory.generateAtm(initialState2, null);
+        AtmService atm2 = AtmBuilder.generateAtm(initialState2, null);
         lisDepartment.addAtm(atm2);
 
         initialMap1.put(HUNDRED, 0);
         State initialState3 = new StateImpl(initialMap1);
-        AtmService atm3 = AtmFactory.generateAtm(initialState3, null);
+        AtmService atm3 = AtmBuilder.generateAtm(initialState3, null);
         lisDepartment.addAtm(atm3);
 
         insertCardEnterPinIntoAtm1();
@@ -78,7 +78,7 @@ class AtmDepartmentTest {
         initialMap1.put(THOUSAND, 1000);
         initialMap1.put(TWO_THOUSAND, 10000);
         initialMap1.put(FIVE_THOUSAND, 100000);
-        AtmService atm1 = AtmFactory.generateAtm(new StateImpl(initialMap1), atmSpecialName);
+        AtmService atm1 = AtmBuilder.generateAtm(new StateImpl(initialMap1), atmSpecialName);
         lisDepartment.addAtm(atm1);
         Set<String> atmIDs = lisDepartment.getAtmIds();
         System.out.println("Department " + lisDepartment.getName());
@@ -88,7 +88,7 @@ class AtmDepartmentTest {
 
     @Test
     void atmFactorySavesGeneratedAmtIDs() {
-        List<String> atmIDs = AtmFactory.getGeneratedIDs();
+        List<String> atmIDs = AtmBuilder.getGeneratedIDs();
         System.out.println("Atm Factory. Generated IDs:" + atmIDs);
         assertThat(atmIDs.contains("atm1"));
         assertThat(atmIDs.contains("atm2"));

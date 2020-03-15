@@ -3,7 +3,7 @@ package ru.otus.atm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtmFactory {
+public class AtmBuilder {
 
     private static final AuthorizationModule authorization =  new AuthorizationModule();
     private static int counter = 0;
