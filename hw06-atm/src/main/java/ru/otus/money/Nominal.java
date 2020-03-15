@@ -1,6 +1,4 @@
-package ru.otus.atm;
-
-import java.util.Comparator;
+package ru.otus.money;
 
 public enum Nominal {
 

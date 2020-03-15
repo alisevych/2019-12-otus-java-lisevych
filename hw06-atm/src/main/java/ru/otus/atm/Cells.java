@@ -1,18 +1,20 @@
 package ru.otus.atm;
 
+import ru.otus.money.Bundle;
+import ru.otus.money.Nominal;
+
 import java.util.List;
-import java.util.Map;
 
 interface Cells {
 
-    boolean inputBanknotes(Map<Nominal, Integer> banknotes);
+    boolean inputBanknotes(Bundle banknotes);
 
-    Map<Nominal, Integer> takeAmountOut(int sum);
+    Bundle takeAmountOut(int sum);
 
     List<Nominal> getAvailableNominals();
 
-    boolean setState (Map<Nominal, Integer> cellsState);
+    boolean setState (State cellsState);
 
-    Map<Nominal, Integer> getState ();
+    State getState ();
 
 }

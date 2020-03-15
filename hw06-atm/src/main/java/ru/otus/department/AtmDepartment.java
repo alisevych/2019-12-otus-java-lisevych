@@ -11,9 +11,11 @@ public interface AtmDepartment {
 
     boolean addAtm(AtmService newAtm);
 
-    boolean getStateFromAllAtms();
+    boolean requestAllAtmsBalance(long serviceKey);
 
-    boolean restartAllAtms();
+    boolean printReceivedAtmsBalance(long serviceKey);
+
+    boolean reinitializeAllAtms(long serviceKey);
 
     String getName();
 

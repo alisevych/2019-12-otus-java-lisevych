@@ -2,7 +2,6 @@ package ru.otus.atm;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class AtmFactory {
 
@@ -10,14 +9,16 @@ public class AtmFactory {
     private static int counter = 0;
     private static List<String> generatedIDs = new ArrayList<>();
 
-    public static AtmImpl getAtm(Map<Nominal, Integer> initialState, String atmID) {
-        CellsImpl cells = new CellsImpl(initialState);
+    public static AtmImpl generateAtm(State initialState, String atmID) {
         if (atmID == null) {
             counter++;
             atmID = "atm" + counter;
         }
         generatedIDs.add(atmID);
-        return new AtmImpl(cells, authorization, atmID);
+        return new AtmImpl(initialState, authorization, atmID);
     }
 
+    public static List<String> getGeneratedIDs(){
+        return new ArrayList<>(generatedIDs);
+    }
 }
