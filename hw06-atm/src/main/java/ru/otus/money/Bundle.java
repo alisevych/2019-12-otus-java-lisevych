@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface Bundle {
 
-    Map<Nominal, Integer> getMap();
+    Map<Nominal, Integer> getMapCopy();
 
     Set<Nominal> getNominals();
 

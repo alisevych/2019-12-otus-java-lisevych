@@ -11,7 +11,7 @@ public class CellsImpl implements Cells {
     private Map<Nominal, Integer> cells;
 
     protected CellsImpl(State initialState) {
-        cells = new TreeMap<>(initialState.getMap());
+        cells = initialState.getMapCopy();
     }
 
     private void addToNominal(Nominal nominal, int quantity) {
@@ -25,7 +25,7 @@ public class CellsImpl implements Cells {
             System.out.println("[ERROR] There are unsupported nominals in banknotes. \nPlease take your money back.");
             return false;
         }
-        banknotes.getMap().forEach(this::addToNominal);
+        banknotes.getMapCopy().forEach(this::addToNominal);
         return true;
     }
 
@@ -96,7 +96,7 @@ public class CellsImpl implements Cells {
 
     @Override
     public boolean setState (State cellsState) {
-        cells = new TreeMap<>(cellsState.getMap());
+        cells = cellsState.getMapCopy();
         return true;
     }
 

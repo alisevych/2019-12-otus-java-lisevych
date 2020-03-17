@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import static ru.otus.helpers.TreeMapHelper.deepMapCopy;
+
 public class BundleImpl implements Bundle {
 
     private final Map<Nominal, Integer> banknotes;
@@ -18,8 +20,8 @@ public class BundleImpl implements Bundle {
     }
 
     @Override
-    public Map<Nominal, Integer> getMap() {
-        return Collections.unmodifiableMap(banknotes);
+    public Map<Nominal, Integer> getMapCopy() {
+        return deepMapCopy(banknotes);
     }
 
     @Override
@@ -49,6 +51,6 @@ public class BundleImpl implements Bundle {
         if (!o.getClass().equals(this.getClass())){
             throw new IllegalArgumentException("Object should be of class " + this.getClass());
         }
-        return banknotes.equals(((BundleImpl) o).getMap());
+        return banknotes.equals(((BundleImpl) o).getMapCopy());
     }
 }

@@ -19,6 +19,7 @@ class AtmTest {
     private static final Map<Nominal, Integer> initialCellsMap = new TreeMap<>();
     private static UserSession userSession;
     private static ServiceSession serviceSession;
+    private static final long SECRET_KEY = -111111111;
 
     @BeforeAll
     protected static void setUp() {
@@ -90,12 +91,12 @@ class AtmTest {
         banknotesPack.addBanknotes(Nominal.FIVE_HUNDRED, 154);
         banknotesPack.addBanknotes(Nominal.HUNDRED, 0);
         userSession.inputBanknotes(banknotesPack);
-        Map<Nominal, Integer> expectedMap = summarizeTwoMaps(initialState.getMap(), banknotesPack.getMap());
+        Map<Nominal, Integer> expectedMap = summarizeTwoMaps(initialState.getImmutableMap(), banknotesPack.getMapCopy());
         System.out.println("--- after input banknotes ---");
         State resultState = serviceSession.getState();
         resultState.print();
         //assertThat(serviceSession.setState(initialState));
-        assertThat(resultState.getMap()).isEqualTo(expectedMap);
+        assertThat(resultState.getImmutableMap()).isEqualTo(expectedMap);
     }
 
     @Test
@@ -147,7 +148,7 @@ class AtmTest {
         userSession.getAmount(1500);
         userSession.inputBanknotes(new BundleImpl().addBanknotes(THOUSAND, 10));
         serviceSession.getState().print();
-        ((AtmService) atm).reinit(-111111111);
+        ((AtmService) atm).reinit(SECRET_KEY);
         serviceSession.getState().print();
     }
 
@@ -156,11 +157,14 @@ class AtmTest {
         if (!initialMap.keySet().containsAll(addedBanknotes.keySet())){
             throw new RuntimeException("[ERROR] Some keys from addedBanknotes are not present in initialMap");
         }
-        Map<Nominal, Integer> resultMap = new TreeMap<>(initialMap);
+        Map<Nominal, Integer> resultMap = new TreeMap<>();
+        int toAdd = 0;
         for (Nominal nominal : initialMap.keySet()){
+            toAdd = 0;
             if (addedBanknotes.containsKey(nominal)) {
-                resultMap.put(nominal, initialMap.get(nominal) + addedBanknotes.get(nominal));
+                toAdd = addedBanknotes.get(nominal);
             }
+            resultMap.put(nominal, initialMap.get(nominal) + toAdd);
         }
         return resultMap;
     }

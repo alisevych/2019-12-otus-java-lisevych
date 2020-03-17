@@ -24,7 +24,7 @@ public class AtmImpl implements AtmUser, AtmService, CommandListener {
         this.cells = new CellsImpl(initialState);
         this.authorization = authorization;
         this.atmID = atmNumber;
-        this.initialState = new StateImpl(initialState.getMap());
+        this.initialState = new StateImpl(initialState);
     }
 
     @Override
@@ -87,9 +87,6 @@ public class AtmImpl implements AtmUser, AtmService, CommandListener {
     }
 
     public boolean reinit(long key) {
-        if (initialState == null) {
-            throw new IllegalStateException("No initial state is stored in atm " + atmID);
-        }
         return setState(key, initialState);
     }
 

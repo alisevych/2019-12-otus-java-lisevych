@@ -13,5 +13,14 @@ public class BalanceListener {
 
     public void printAll() {
         atmBalances.entrySet().forEach(System.out::println);
+        System.out.println("Summary: " + balanceSummary());
+    }
+
+    public long balanceSummary() {
+        long result = 0;
+        for (Map.Entry<String, Long> oneBalance: atmBalances.entrySet()) {
+            result += oneBalance.getValue();
+        }
+        return result;
     }
 }

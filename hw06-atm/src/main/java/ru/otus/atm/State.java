@@ -6,7 +6,9 @@ import java.util.Map;
 
 public interface State {
 
-    Map<Nominal, Integer> getMap();
+    Map<Nominal, Integer> getImmutableMap();
+
+    Map<Nominal, Integer> getMapCopy();
 
     long calculateBalance();
 
