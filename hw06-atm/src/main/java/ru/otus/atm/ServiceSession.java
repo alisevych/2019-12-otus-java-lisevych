@@ -1,7 +1,5 @@
 package ru.otus.atm;
 
-import java.util.Map;
-
 public class ServiceSession {
 
     private final AtmService atm;
@@ -16,12 +14,12 @@ public class ServiceSession {
         System.out.println("Service session is opened.");
     }
 
-    protected Map<Nominal, Integer> getState() {
+    protected State getState() {
         checkLoggedIn();
         return atm.getState(sessionKey);
     }
 
-    protected boolean setState(Map<Nominal, Integer> cellState){
+    protected boolean setState(State cellState){
         checkLoggedIn();
         return atm.setState(sessionKey, cellState);
     }

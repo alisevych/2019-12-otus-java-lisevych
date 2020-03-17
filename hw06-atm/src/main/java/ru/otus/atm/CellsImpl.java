@@ -1,13 +1,17 @@
 package ru.otus.atm;
 
+import ru.otus.money.Bundle;
+import ru.otus.money.BundleImpl;
+import ru.otus.money.Nominal;
+
 import java.util.*;
 
 public class CellsImpl implements Cells {
 
     private Map<Nominal, Integer> cells;
 
-    protected CellsImpl(Map<Nominal, Integer> initialState) {
-        cells = new TreeMap<>(initialState);
+    protected CellsImpl(State initialState) {
+        cells = initialState.getMapCopy();
     }
 
     private void addToNominal(Nominal nominal, int quantity) {
@@ -16,12 +20,12 @@ public class CellsImpl implements Cells {
     }
 
     @Override
-    public boolean inputBanknotes(Map<Nominal, Integer> banknotes) {
-        if (!cells.keySet().containsAll(banknotes.keySet())){
+    public boolean inputBanknotes(Bundle banknotes) {
+        if (!cells.keySet().containsAll(banknotes.getNominals())){
             System.out.println("[ERROR] There are unsupported nominals in banknotes. \nPlease take your money back.");
             return false;
         }
-        banknotes.forEach(this::addToNominal);
+        banknotes.getMapCopy().forEach(this::addToNominal);
         return true;
     }
 
@@ -29,7 +33,7 @@ public class CellsImpl implements Cells {
      * takeAmountOut takes maximum from largest nominals first
      */
     @Override
-    public Map<Nominal, Integer> takeAmountOut(int amount) {
+    public Bundle takeAmountOut(int amount) {
         Map<Nominal, Integer> toTake = new TreeMap<>();
         int remainingSum = amount;
         for (Nominal nominal : getAvailableNominals()) {
@@ -56,7 +60,7 @@ public class CellsImpl implements Cells {
             throw new IllegalStateException("[ERROR] CellsImpl. Remaining sum is : " + remainingSum);
         }
         withdrawAmount(toTake);
-        return toTake;
+        return new BundleImpl(toTake);
     }
 
     private void withdrawAmount(Map<Nominal, Integer> toTake) {
@@ -91,21 +95,14 @@ public class CellsImpl implements Cells {
     }
 
     @Override
-    public boolean setState (Map<Nominal, Integer> cellsState) {
-        cells = new TreeMap<>(cellsState);
+    public boolean setState (State cellsState) {
+        cells = cellsState.getMapCopy();
         return true;
     }
 
     @Override
-    public Map<Nominal, Integer> getState () {
-        printState();
-        return Map.copyOf(cells); //immutable
-    }
-
-    private void printState() {
-        System.out.println("CellsImpl current state:");
-        getAvailableNominals().forEach(nominal ->
-                System.out.println(nominal + " - " + cells.get(nominal)));
+    public State getState () {
+        return new StateImpl(cells);
     }
 
 }

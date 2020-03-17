@@ -1,15 +1,19 @@
 package ru.otus.atm;
 
+import ru.otus.money.Bundle;
+import ru.otus.money.Nominal;
+
 import java.util.List;
-import java.util.Map;
 
 public interface AtmUser {
 
+    String getAtmID();
+
     long userLogin(long cardNumber, int pin);
 
-    Map<Nominal, Integer> getAmount(long key, int sum);
+    Bundle getAmount(long key, int sum);
 
-    boolean inputBanknotes(long key, Map<Nominal, Integer> banknotes);
+    boolean inputBanknotes(long key, Bundle banknotes);
 
     List<Nominal> getAvailableNominals(long key);
 
