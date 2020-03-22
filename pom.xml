@@ -29,6 +29,7 @@
         <module>hw04-aop</module>
         <module>hw05-test</module>
         <module>hw06-atm</module>
+        <module>hw08-gson</module>
     </modules>
 
     <properties>
@@ -37,6 +38,8 @@
         <maven.compiler.source>13</maven.compiler.source>
         <maven.assembly.version>3.2.0</maven.assembly.version>
         <com.google.guava.version>28.2-jre</com.google.guava.version>
+        <com.google.gson.version>2.8.6</com.google.gson.version>
+        <javax.json.version>1.1.4</javax.json.version>
         <junit-jupiter.version>5.3.2</junit-jupiter.version>
         <mockito.version>2.28.2</mockito.version>
         <assertj.version>3.13.2</assertj.version>
@@ -45,7 +48,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <!-- Packaging -->
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -53,7 +55,31 @@
                 <version>${maven.assembly.version}</version>
             </dependency>
 
-            <!-- JUnit5 (jupiter) -->
+            <!-- Google -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${com.google.guava.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${com.google.gson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.json</groupId>
+                <artifactId>javax.json-api</artifactId>
+                <version>${javax.json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>${javax.json.version}</version>
+            </dependency>
+
+            <!-- Test -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
@@ -75,7 +101,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- Mockito -->
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -90,19 +115,11 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- AssertJ -->
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj.version}</version>
                 <scope>test</scope>
-            </dependency>
-
-            <!-- Guava -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${com.google.guava.version}</version>
             </dependency>
 
         </dependencies>
