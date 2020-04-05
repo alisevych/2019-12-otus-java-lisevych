@@ -8,9 +8,10 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DiyGsonTest {
+class DiyGsonImplTest {
 
     private final Gson gson = new Gson();
+    //private final DiyGson gson = new DiyGsonImpl();
 
     @DisplayName("Object passed toJson() and Object returned back fromJson() are equal")
     @Test

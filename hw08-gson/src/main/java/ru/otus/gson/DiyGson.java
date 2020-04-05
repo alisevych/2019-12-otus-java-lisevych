@@ -2,14 +2,10 @@ package ru.otus.gson;
 
 import com.google.gson.JsonSyntaxException;
 
-public class DiyGson {
+public interface DiyGson {
 
-    public String toJson(Object src) {
-        throw new UnsupportedOperationException();
-    }
+    String toJson(Object src);
 
-    public <T> T fromJson(String json, Class<T> classOfT) throws JsonSyntaxException {
-        throw new UnsupportedOperationException();
-    }
+    <T> T fromJson(String json, Class<T> classOfT) throws JsonSyntaxException;
 
 }
