@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DiyGsonImpl2Test {
 
     private final Gson gson = new Gson();
-    private final DiyGson myGson = new DiyGsonImpl();
+    private final DiyGson diyGson = new DiyGsonImpl();
 
     @DisplayName("My impl of toJson() and Gson impl results are equal")
     @Test
@@ -21,10 +21,10 @@ class DiyGsonImpl2Test {
 
         String json = gson.toJson(obj);
         System.out.println(json);
-        String myJson = myGson.toJson(obj);
-        System.out.println(myJson);
+        String diyJson = diyGson.toJson(obj);
+        System.out.println(diyJson);
 
-        assertEquals(myJson, json);
+        assertEquals(json, diyJson);
     }
 
     @Test
@@ -35,10 +35,10 @@ class DiyGsonImpl2Test {
 
         String json = gson.toJson(obj);
         System.out.println(json);
-        String myJson = myGson.toJson(obj);
-        System.out.println(myJson);
+        String diyJson = diyGson.toJson(obj);
+        System.out.println(diyJson);
 
-        assertEquals(myJson, json);
+        assertEquals(json, diyJson);
     }
 
     @Test
@@ -49,10 +49,10 @@ class DiyGsonImpl2Test {
 
         String json = gson.toJson(obj);
         System.out.println(json);
-        String myJson = myGson.toJson(obj);
-        System.out.println(myJson);
+        String diyJson = diyGson.toJson(obj);
+        System.out.println(diyJson);
 
-        assertEquals(myJson, json);
+        assertEquals(json, diyJson);
     }
 
     @Test
@@ -66,10 +66,10 @@ class DiyGsonImpl2Test {
 
         String json = gson.toJson(obj);
         System.out.println(json);
-        String myJson = myGson.toJson(obj);
-        System.out.println(myJson);
+        String diyJson = diyGson.toJson(obj);
+        System.out.println(diyJson);
 
-        assertEquals(myJson, json);
+        assertEquals(json, diyJson);
     }
 
     @Test
@@ -89,21 +89,21 @@ class DiyGsonImpl2Test {
 
         String json = gson.toJson(obj);
         System.out.println(json);
-        String myJson = myGson.toJson(obj);
-        System.out.println(myJson);
+        String diyJson = diyGson.toJson(obj);
+        System.out.println(diyJson);
 
-        assertEquals(myJson, json);
+        assertEquals(json, diyJson);
     }
 
     @Test
     void nullToAndFromJson() {
         BagOfPrimitives obj = null;
-        String json = gson.toJson(obj);
+        String json = diyGson.toJson(obj);
         System.out.println(json);
-
-        BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
-        System.out.println(obj2);
         assertEquals(json , "null");
-        assertNull(obj2);
+
+        //BagOfPrimitives obj2 = diyGson.fromJson(json, BagOfPrimitives.class);
+        //System.out.println(obj2);
+        //assertNull(obj2);
     }
 }
